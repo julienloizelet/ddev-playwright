@@ -1,5 +1,4 @@
-[![tests](https://github.com/julienloizelet/ddev-playwright/actions/workflows/tests.yml/badge.svg)](https://github.
-com/drud/ddev-playwright/actions/workflows/tests.yml) ![project is maintained](https://img.shields.io/maintenance/yes/2023.svg)
+[![tests](https://github.com/julienloizelet/ddev-playwright/actions/workflows/tests.yml/badge.svg)](https://github.com/drud/ddev-playwright/actions/workflows/tests.yml) ![project is maintained](https://img.shields.io/maintenance/yes/2023.svg)
 
 # ddev-playwright
 

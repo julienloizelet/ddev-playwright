@@ -10,6 +10,17 @@ The purpose of this section is to declare the public API of this project as requ
 
 The public API for this project is defined by the files `docker-compose.playwright.yaml` and `install.yaml`.
 
+------
+
+
+## [1.0.0](https://github.com/julienloizelet/ddev-playwright/releases/tag/v1.0.0) - 2023-01-27
+[_Compare with previous release_](https://github.com/julienloizelet/ddev-playwright/compare/v0.0.1...v1.0.0)
+
+### Changed
+
+- Change version to `1.0.0`: first stable release
+
+
 ---
 
 

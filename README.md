@@ -4,6 +4,13 @@
 
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+**Table of Contents**
+
+- [Introduction](#introduction)
+- [Installation](#installation)
+- [Basic usage](#basic-usage)
+  - [Yarn install](#yarn-install)
+  - [Launch Playwright test](#launch-playwright-test)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 

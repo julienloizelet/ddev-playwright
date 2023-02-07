@@ -7,8 +7,12 @@ setup() {
   export DDEV_NON_INTERACTIVE=true
   ddev delete -Oy ${PROJNAME} >/dev/null 2>&1 || true
   cd "${TESTDIR}"
-  ddev config --project-name=${PROJNAME}
+  ddev config --project-type=php --project-name=${PROJNAME} --docroot=web --create-docroot
   ddev start -y >/dev/null
+  cp "${DIR}"/tests/testdata/web/home.php web/home.php
+  cp -r "${DIR}"/tests/testdata/yarn ./
+  cp -r "${DIR}"/tests/testdata/scripts ./
+  chmod +x ./scripts/run-tests.sh
 }
 
 teardown() {
@@ -21,20 +25,84 @@ teardown() {
 @test "install from directory" {
   set -eu -o pipefail
   cd ${TESTDIR}
+
+  echo "# Basic Curl check" >&3
+  CURLVERIF=$(curl https://${PROJNAME}.ddev.site/home.php | grep -o -E "<h1>(.*)</h1>"  | sed 's/<\/h1>//g; s/<h1>//g;' | tr '\n' '#')
+  if [[ $CURLVERIF == "The way is clear!#" ]]
+    then
+      echo "# CURLVERIF OK" >&3
+    else
+      echo "# CURLVERIF KO"
+      echo $CURLVERIF
+      exit 1
+  fi
+
   echo "# ddev get ${DIR} with project ${PROJNAME} in ${TESTDIR} ($(pwd))" >&3
   ddev get ${DIR}
   ddev restart
-  # Do something here to verify functioning extra service
-  # For extra credit, use a real CMS with actual config.
-  # ddev exec "curl -s elasticsearch:9200" | grep "${PROJNAME}-elasticsearch"
+
+  echo "# Yarn install in Playwright container" >&3
+  ddev exec -s playwright yarn install --cwd ./var/www/html/yarn --force
+  ddev exec -s playwright yarn global add cross-env
+  # Work around to be able to delete all files after test (in teardown method)
+  ddev exec -s playwright chmod -R 777 /var/www/html/yarn
+
+  echo "# Run a test" >&3
+  cd ${TESTDIR}/scripts
+  ./run-tests.sh __tests__/1-simple-test.js >&3
+
+  echo "# Check that there is no pending test" >&3
+  cd ${TESTDIR}/yarn
+  PENDING_TESTS=$(grep -oP '"numPendingTests":\K(.*),"numRuntimeErrorTestSuites"' .test-results.json | sed  's/,"numRuntimeErrorTestSuites"//g')
+  if [[ $PENDING_TESTS == "0" ]]
+  then
+  echo "# No pending tests: OK" >&3
+  else
+    echo "There are pending tests: $PENDING_TESTS (KO)"
+    exit 1
+  fi
 }
 
 @test "install from release" {
   set -eu -o pipefail
   cd ${TESTDIR} || ( printf "unable to cd to ${TESTDIR}\n" && exit 1 )
-  echo "# ddev get ddev/ddev-addon-template with project ${PROJNAME} in ${TESTDIR} ($(pwd))" >&3
-  ddev get ddev/ddev-addon-template
+  echo "# ddev get julienloizelet/ddev-playwright with project ${PROJNAME} in ${TESTDIR} ($(pwd))" >&3
+  ddev get julienloizelet/ddev-playwright
   ddev restart >/dev/null
-  # Do something useful here that verifies the add-on
-  # ddev exec "curl -s elasticsearch:9200" | grep "${PROJNAME}-elasticsearch"
+
+  echo "# Basic Curl check" >&3
+  CURLVERIF=$(curl https://${PROJNAME}.ddev.site/home.php | grep -o -E "<h1>(.*)</h1>"  | sed 's/<\/h1>//g; s/<h1>//g;' | tr '\n' '#')
+  if [[ $CURLVERIF == "The way is clear!#" ]]
+    then
+      echo "# CURLVERIF OK" >&3
+    else
+      echo "# CURLVERIF KO"
+      echo $CURLVERIF
+      exit 1
+  fi
+
+  echo "# ddev get ${DIR} with project ${PROJNAME} in ${TESTDIR} ($(pwd))" >&3
+  ddev get ${DIR}
+  ddev restart
+
+  echo "# Yarn install in Playwright container" >&3
+  ddev exec -s playwright yarn install --cwd ./var/www/html/yarn --force
+  ddev exec -s playwright yarn global add cross-env
+  # Work around to be able to delete all files after test (in teardown method)
+  ddev exec -s playwright chmod -R 777 /var/www/html/yarn
+
+  echo "# Run a test" >&3
+  cd ${TESTDIR}/scripts
+  ./run-tests.sh __tests__/1-simple-test.js >&3
+
+  echo "# Check that there is no pending test" >&3
+  cd ${TESTDIR}/yarn
+  PENDING_TESTS=$(grep -oP '"numPendingTests":\K(.*),"numRuntimeErrorTestSuites"' .test-results.json | sed  's/,"numRuntimeErrorTestSuites"//g')
+  if [[ $PENDING_TESTS == "0" ]]
+  then
+    echo "# No pending tests: OK" >&3
+  else
+    echo "There are pending tests: $PENDING_TESTS (KO)"
+    exit 1
+  fi
 }

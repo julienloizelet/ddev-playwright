@@ -1,0 +1,19 @@
+version: '3.6'
+services:
+  playwright:
+    image: mcr.microsoft.com/playwright:focal
+    container_name: ddev-${DDEV_SITENAME}-playwright
+    hostname: ${DDEV_SITENAME}-playwright
+    # These labels ensure this service is discoverable by ddev.
+    labels:
+      com.ddev.site-name: ${DDEV_SITENAME}
+      com.ddev.approot: $DDEV_APPROOT
+    environment:
+      NETWORK_IFACE: eth0
+    depends_on:
+      - web
+    volumes:
+      - ../:/var/www/html:rw
+    external_links:
+      - ddev-router:${DDEV_HOSTNAME}
+    command: tail -F anything

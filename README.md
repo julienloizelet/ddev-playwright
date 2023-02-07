@@ -1,8 +1,12 @@
-[![tests](https://github.com/drud/ddev-playwright/actions/workflows/tests.yml/badge.svg)](https://github.com/drud/ddev-playwright/actions/workflows/tests.yml) ![project is maintained](https://img.shields.io/maintenance/yes/2022.svg)
+[![tests](https://github.com/julienloizelet/ddev-playwright/actions/workflows/tests.yml/badge.svg)](https://github.
+com/drud/ddev-playwright/actions/workflows/tests.yml) ![project is maintained](https://img.shields.io/maintenance/yes/2023.svg)
 
-# ddev-playwright <!-- omit in toc -->
+# ddev-playwright
 
-* [What is ddev-playwright?](#what-is-ddev-playwright)
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
 ## What is ddev-playwright?
 

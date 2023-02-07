@@ -40,7 +40,9 @@ As an example, you will find some testing and configuration files in the `tests/
 `ddev exec -s playwright yarn --cwd /var/www/html/yarn test "__tests__/1-simple-test.js"`
 
 
+## Contribute
 
+Anyone is welcome to submit a PR to this repo.
 
 
 **Contributed and maintained by [julienloizelet](https://github.com/julienloizelet)**

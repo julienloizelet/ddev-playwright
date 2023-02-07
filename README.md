@@ -38,3 +38,10 @@ As an example, you will find some testing and configuration files in the `tests/
 ### Launch Playwright test 
 
 `ddev exec -s playwright yarn --cwd /var/www/html/yarn test "__tests__/1-simple-test.js"`
+
+
+
+
+
+**Contributed and maintained by [julienloizelet](https://github.com/julienloizelet)**
+

@@ -89,7 +89,6 @@ teardown() {
   ddev exec -s playwright chmod -R 777 /var/www/html/yarn
 
   echo "# Run a test" >&3
-  cd ${TESTDIR}/scripts
   ddev exec -s playwright yarn --cwd /var/www/html/yarn test --json --outputFile=./.test-results.json "__tests__/1-simple-test.js"
 
   echo "# Check that there is no pending test" >&3

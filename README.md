@@ -11,6 +11,7 @@
 - [Basic usage](#basic-usage)
   - [Yarn install](#yarn-install)
   - [Launch Playwright test](#launch-playwright-test)
+- [Contribute](#contribute)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 

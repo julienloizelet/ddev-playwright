@@ -1,9 +1,9 @@
 setup() {
   set -eu -o pipefail
   export DIR="$( cd "$( dirname "$BATS_TEST_FILENAME" )" >/dev/null 2>&1 && pwd )/.."
-  export TESTDIR=~/tmp/test-addon-template
+  export TESTDIR=~/tmp/ddev-playwright-test
   mkdir -p $TESTDIR
-  export PROJNAME=test-addon-template
+  export PROJNAME=ddev-playwright-test
   export DDEV_NON_INTERACTIVE=true
   ddev delete -Oy ${PROJNAME} >/dev/null 2>&1 || true
   cd "${TESTDIR}"
@@ -11,8 +11,6 @@ setup() {
   ddev start -y >/dev/null
   cp "${DIR}"/tests/testdata/web/home.php web/home.php
   cp -r "${DIR}"/tests/testdata/yarn ./
-  cp -r "${DIR}"/tests/testdata/scripts ./
-  chmod +x ./scripts/run-tests.sh
 }
 
 teardown() {
@@ -48,8 +46,7 @@ teardown() {
   ddev exec -s playwright chmod -R 777 /var/www/html/yarn
 
   echo "# Run a test" >&3
-  cd ${TESTDIR}/scripts
-  ./run-tests.sh __tests__/1-simple-test.js >&3
+  ddev exec -s playwright yarn --cwd /var/www/html/yarn test --json --outputFile=./.test-results.json "__tests__/1-simple-test.js"
 
   echo "# Check that there is no pending test" >&3
   cd ${TESTDIR}/yarn
@@ -93,7 +90,7 @@ teardown() {
 
   echo "# Run a test" >&3
   cd ${TESTDIR}/scripts
-  ./run-tests.sh __tests__/1-simple-test.js >&3
+  ddev exec -s playwright yarn --cwd /var/www/html/yarn test --json --outputFile=./.test-results.json "__tests__/1-simple-test.js"
 
   echo "# Check that there is no pending test" >&3
   cd ${TESTDIR}/yarn

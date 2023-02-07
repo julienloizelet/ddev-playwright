@@ -39,6 +39,6 @@ jobs:
         with:
           MAX_HEADER_LEVEL: 5
           COMMIT_NAME: Okaeli Dev Bot
-          TARGET_PATHS: 'docs/*.md'
+          TARGET_PATHS: 'README.md'
           CHECK_ONLY_DEFAULT_BRANCH: true
           CREATE_PR: true

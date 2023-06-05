@@ -16,6 +16,7 @@ services:
       com.ddev.site-name: ${DDEV_SITENAME}
       com.ddev.approot: $DDEV_APPROOT
     environment:
+      - PLAYWRIGHT_TEST_DIR=tests/Playwright
       - NETWORK_IFACE=eth0
       - DISPLAY=:1
       - VIRTUAL_HOST=$DDEV_HOSTNAME

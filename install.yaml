@@ -5,4 +5,5 @@ project_files:
 - commands/playwright/playwright
 - playwright-build/Dockerfile
 - playwright-build/kasmvnc.yaml
+- playwright-build/xstartup
 - docker-compose.playwright.yaml

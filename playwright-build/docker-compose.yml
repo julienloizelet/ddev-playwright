@@ -1,0 +1,6 @@
+# This file exists just to aid with local debugging
+services:
+    dummy_playwright:
+        build:
+            context: .
+        command: tail -F anything

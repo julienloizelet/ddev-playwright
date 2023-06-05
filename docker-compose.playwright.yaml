@@ -7,7 +7,8 @@
 version: '3.6'
 services:
   playwright:
-    image: mcr.microsoft.com/playwright:focal
+    build:
+      context: playwright-build
     container_name: ddev-${DDEV_SITENAME}-playwright
     hostname: ${DDEV_SITENAME}-playwright
     # These labels ensure this service is discoverable by ddev.
@@ -15,11 +16,20 @@ services:
       com.ddev.site-name: ${DDEV_SITENAME}
       com.ddev.approot: $DDEV_APPROOT
     environment:
-      NETWORK_IFACE: eth0
+      - NETWORK_IFACE=eth0
+      - DISPLAY=:1
+      - VIRTUAL_HOST=$DDEV_HOSTNAME
+      - HTTP_EXPOSE=8443:8444,9323:9324
+      - HTTPS_EXPOSE=8444:8444,9324:9324
+    expose:
+      - "8444"
+      - "9324"
     depends_on:
       - web
     volumes:
+      - .:/mnt/ddev_config
+      - ddev-global-cache:/mnt/ddev-global-cache
       - ../:/var/www/html:rw
     external_links:
       - ddev-router:${DDEV_HOSTNAME}
-    command: tail -F anything
+    command: bash -c 'mkcert -install && vncserver -fg'

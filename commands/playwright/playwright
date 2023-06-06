@@ -5,10 +5,7 @@
 #
 # This file comes from https://github.com/julienloizelet/ddev-playwright
 #
+cd /var/www/html || exit 1
 cd "${PLAYWRIGHT_TEST_DIR}" || exit 1
 
-if [ -f yarn.lock ]; then
-  yarn && yarn playwright "$@"
-else
-  npx playwright "$@"
-fi
+yarn playwright "$@"

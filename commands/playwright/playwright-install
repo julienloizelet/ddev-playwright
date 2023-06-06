@@ -8,4 +8,6 @@
 cd /var/www/html || exit 1
 cd "${PLAYWRIGHT_TEST_DIR}" || exit 1
 
-yarn playwright "$@"
+yarn install
+yarn playwright install --with-deps
+cp -n .env.example .env || true

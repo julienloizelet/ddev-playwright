@@ -34,3 +34,4 @@ services:
     external_links:
       - ddev-router:${DDEV_HOSTNAME}
     command: bash -c 'mkcert -install && vncserver -fg'
+    working_dir: /var/www/html

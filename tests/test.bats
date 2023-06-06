@@ -40,7 +40,7 @@ teardown() {
   ddev restart
 
   echo "# Yarn install in Playwright container" >&3
-  ddev exec -s playwright yarn install --cwd ./var/www/html/yarn --force
+  ddev exec -s playwright yarn install --cwd ./yarn --force
   # Work around to be able to delete all files after test (in teardown method)
   ddev exec -s playwright chmod -R 777 /var/www/html/yarn
 

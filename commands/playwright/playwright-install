@@ -8,6 +8,8 @@
 cd /var/www/html || exit 1
 cd "${PLAYWRIGHT_TEST_DIR}" || exit 1
 
-yarn install
-yarn playwright install --with-deps
-cp -n .env.example .env || true
+USER="$(stat -c "%U" .)"
+
+sudo -u "${USER}" yarn install
+sudo -u "${USER}" yarn playwright install --with-deps
+sudo -u "${USER}" cp -n .env.example .env || true

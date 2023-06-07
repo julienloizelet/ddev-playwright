@@ -6,6 +6,21 @@
 #
 FROM mcr.microsoft.com/playwright:focal
 
+# Debian images by default disable apt caching, so turn it on until we finish
+# the build.
+RUN mv /etc/apt/apt.conf.d/docker-clean /etc/apt/docker-clean-disabled
+
+USER root
+
+RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
+      --mount=type=cache,target=/var/lib/apt,sharing=locked \
+    apt-get update \
+    && apt-get install -y sudo
+
+# Give the pwuser user full `sudo` privileges
+RUN echo "pwuser ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers.d/pwuser \
+    && chmod 0440 /etc/sudoers.d/pwuser
+
 # CAROOT for `mkcert` to use, has the CA config
 ENV CAROOT=/mnt/ddev-global-cache/mkcert
 
@@ -13,10 +28,6 @@ ENV CAROOT=/mnt/ddev-global-cache/mkcert
 RUN export TARGETPLATFORM=linux/$(uname -m | sed 's/x86_64/amd64/;s/aarch64/arm64/') && mkdir -p /usr/local/bin && curl --fail -JL -s -o /usr/local/bin/mkcert "https://dl.filippo.io/mkcert/latest?for=${TARGETPLATFORM}"
 RUN chmod +x /usr/local/bin/mkcert
 
-
-# Debian images by default disable apt caching, so turn it on until we finish
-# the build.
-RUN mv /etc/apt/apt.conf.d/docker-clean /etc/apt/docker-clean-disabled
 
 # Install a window manager.
 RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
@@ -37,7 +48,7 @@ RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
 #RUN sudo chgrp -R $gid /etc/ssl/private
 
 RUN mkdir /root/.vnc
-COPY kasmvnc.yaml xstartup /root/.vnc
+COPY kasmvnc.yaml xstartup /root/.vnc/
 #RUN chown $username:$username /home/$username/.vnc/*
 RUN touch /root/.vnc/.de-was-selected
 

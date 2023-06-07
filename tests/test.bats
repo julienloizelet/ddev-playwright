@@ -9,8 +9,8 @@ setup() {
   cd "${TESTDIR}"
   ddev config --project-type=php --project-name=${PROJNAME} --docroot=web --create-docroot
   ddev start -y >/dev/null
-  cp "${DIR}"/tests/testdata/web/home.php web/home.php
-  cp -r "${DIR}"/tests/testdata/yarn ./
+  cp "${DIR}"/tests/project_root/web/home.php web/home.php
+  cp -r "${DIR}"/tests/project_root/tests ./
 }
 
 teardown() {
@@ -39,22 +39,11 @@ teardown() {
   ddev get ${DIR}
   ddev restart
 
-  echo "# Yarn install in Playwright container" >&3
-  ddev exec -s playwright yarn install --cwd ./yarn --force
+  echo "# Install Playwright in container" >&3
+  ddev playwright-install
   # Work around to be able to delete all files after test (in teardown method)
-  ddev exec -s playwright chmod -R 777 /var/www/html/yarn
+  ddev exec -s playwright chmod -R 777 /var/www/html/tests
 
   echo "# Run a test" >&3
-  ddev exec -s playwright yarn --cwd /var/www/html/yarn test --json --outputFile=./.test-results.json "__tests__/1-simple-test.js"
-
-  echo "# Check that there is no pending test" >&3
-  cd ${TESTDIR}/yarn
-  PENDING_TESTS=$(grep -oP '"numPendingTests":\K(.*),"numRuntimeErrorTestSuites"' .test-results.json | sed  's/,"numRuntimeErrorTestSuites"//g')
-  if [[ $PENDING_TESTS == "0" ]]
-  then
-  echo "# No pending tests: OK" >&3
-  else
-    echo "There are pending tests: $PENDING_TESTS (KO)"
-    exit 1
-  fi
+  ddev playwright test
 }

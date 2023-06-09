@@ -51,4 +51,15 @@ teardown() {
     then
       exit 1
   fi
+
+  echo "# Curl VNC service" >&3
+  VNC_HTTP_STATUS=$(curl -u "pwuser:secret" --write-out '%{http_code}' --silent --output /dev/null https://${PROJNAME}.ddev.site:8444)
+  if [[ $VNC_HTTP_STATUS == 200 ]]
+    then
+      echo "# VNC_HTTP_STATUS OK" >&3
+    else
+      echo "# VNC_HTTP_STATUS KO"
+      echo $VNC_HTTP_STATUS
+      exit 1
+  fi
 }

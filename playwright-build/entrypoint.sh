@@ -7,15 +7,12 @@
 #
 
 # Change pwuser IDs to the host IDs supplied by DDEV
-sudo usermod -u ${DDEV_UID} pwuser
-sudo groupmod -g ${DDEV_GID} pwuser
-sudo chgrp -R ${DDEV_GID}  /etc/ssl/private
+usermod -u ${DDEV_UID} pwuser
+groupmod -g ${DDEV_GID} pwuser
+usermod -a -G ssl-cert pwuser
 
 # Install DDEV certificate
 mkcert -install
 
-# Switch to pwuser which now should have the same file system permissions as the host user
-su - pwuser
-
-# Run CMD from parameters
-"$@"
+# Run CMD from parameters as pwuser
+sudo -u pwuser vncserver -fg

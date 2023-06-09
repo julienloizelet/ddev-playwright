@@ -8,6 +8,4 @@
 cd /var/www/html || exit 1
 cd "${PLAYWRIGHT_TEST_DIR}" || exit 1
 
-USER="$(stat -c "%U" .)"
-
-sudo -u "${USER}" yarn playwright "$@"
+sudo -u pwuser yarn playwright "$@"

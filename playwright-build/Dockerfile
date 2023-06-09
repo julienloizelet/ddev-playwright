@@ -41,21 +41,16 @@ RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
       --mount=type=cache,target=/var/lib/apt,sharing=locked \
     apt-get install -y ./kasmvncserver*.deb
 
-# We can't add the user to the ssl-cert group. Rather, we can add them, but it
-# won't actually apply to ddev ssh / docker exec.
-# Even though we disable requiring SSL because we route through the ddev
-# router, kasmvnc still requires reading the TLS cert.
-#RUN sudo chgrp -R $gid /etc/ssl/private
+# We're done with apt so disable caching again for the final image.
+RUN mv /etc/apt/docker-clean-disabled /etc/apt/apt.conf.d/docker-clean
 
+# prepare KasmVNC
 RUN sudo -u pwuser mkdir /home/pwuser/.vnc
 COPY kasmvnc.yaml xstartup /home/pwuser/.vnc/
 RUN chown pwuser:pwuser /home/pwuser/.vnc/*
 RUN sudo -u pwuser touch /home/pwuser/.vnc/.de-was-selected
+RUN sudo -u pwuser /bin/bash -c 'echo -e "secret\nsecret\n" | kasmvncpasswd -wo -u pwuser' # We actually disable auth, but KASM complains without it
 
-RUN sudo -u pwuser /bin/bash -c 'echo -e "secret\nsecret\n" | kasmvncpasswd -wo -u pwuser'
-
-# We're done with apt so disable caching again for the final image.
-RUN mv /etc/apt/docker-clean-disabled /etc/apt/apt.conf.d/docker-clean
 
 COPY entrypoint.sh /root/entrypoint.sh
 ENTRYPOINT "/root/entrypoint.sh"

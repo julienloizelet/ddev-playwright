@@ -15,4 +15,4 @@ usermod -a -G ssl-cert pwuser
 mkcert -install
 
 # Run CMD from parameters as pwuser
-sudo -u pwuser vncserver -fg
+sudo -u pwuser vncserver -fg -disableBasicAuth

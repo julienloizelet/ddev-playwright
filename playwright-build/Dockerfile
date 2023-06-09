@@ -47,12 +47,12 @@ RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
 # router, kasmvnc still requires reading the TLS cert.
 #RUN sudo chgrp -R $gid /etc/ssl/private
 
-RUN mkdir /root/.vnc
-COPY kasmvnc.yaml xstartup /root/.vnc/
-#RUN chown $username:$username /home/$username/.vnc/*
-RUN touch /root/.vnc/.de-was-selected
+RUN sudo -u pwuser mkdir /home/pwuser/.vnc
+COPY kasmvnc.yaml xstartup /home/pwuser/.vnc/
+RUN chown pwuser:pwuser /home/pwuser/.vnc/*
+RUN sudo -u pwuser touch /home/pwuser/.vnc/.de-was-selected
 
-RUN /bin/bash -c 'echo -e "secret\nsecret\n" | kasmvncpasswd -wo -u root'
+RUN sudo -u pwuser /bin/bash -c 'echo -e "secret\nsecret\n" | kasmvncpasswd -wo -u pwuser'
 
 # We're done with apt so disable caching again for the final image.
 RUN mv /etc/apt/docker-clean-disabled /etc/apt/apt.conf.d/docker-clean

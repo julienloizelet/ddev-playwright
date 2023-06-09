@@ -2,6 +2,7 @@ setup() {
   set -eu -o pipefail
   export DIR="$( cd "$( dirname "$BATS_TEST_FILENAME" )" >/dev/null 2>&1 && pwd )/.."
   export TESTDIR=~/tmp/ddev-playwright-test
+  export PW_DIR=${TESTDIR}/tests/Playwright
   mkdir -p $TESTDIR
   export PROJNAME=ddev-playwright-test
   export DDEV_NON_INTERACTIVE=true
@@ -41,9 +42,13 @@ teardown() {
 
   echo "# Install Playwright in container" >&3
   ddev playwright-install
-  # Work around to be able to delete all files after test (in teardown method)
-  ddev exec -s playwright chmod -R 777 /var/www/html/tests
 
   echo "# Run a test" >&3
   ddev playwright test
+
+  echo "# Test permissions of files written by Playwright container" >&3
+  if [[ $(stat -L -c "%a %G %U" ${PW_DIR}/.env) != $(stat -L -c "%a %G %U" ${PW_DIR}/.env.example) ]]
+    then
+      exit 1
+  fi
 }

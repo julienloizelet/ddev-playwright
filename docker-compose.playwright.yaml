@@ -22,6 +22,8 @@ services:
       - VIRTUAL_HOST=$DDEV_HOSTNAME
       - HTTP_EXPOSE=8443:8444,9323:9324
       - HTTPS_EXPOSE=8444:8444,9324:9324
+      - DDEV_UID=${DDEV_UID}
+      - DDEV_GID=${DDEV_GID}
     expose:
       - "8444"
       - "9324"
@@ -33,5 +35,5 @@ services:
       - ../:/var/www/html:rw
     external_links:
       - ddev-router:${DDEV_HOSTNAME}
-    command: bash -c 'mkcert -install && vncserver -fg'
+    command: vncserver -fg
     working_dir: /var/www/html

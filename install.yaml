@@ -7,4 +7,5 @@ project_files:
 - playwright-build/Dockerfile
 - playwright-build/kasmvnc.yaml
 - playwright-build/xstartup
+- playwright-build/entrypoint.sh
 - docker-compose.playwright.yaml

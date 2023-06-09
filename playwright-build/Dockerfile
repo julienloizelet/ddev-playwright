@@ -56,3 +56,5 @@ RUN sudo -u pwuser /bin/bash -c 'echo -e "secret\nsecret\n" | kasmvncpasswd -wo 
 
 # We're done with apt so disable caching again for the final image.
 RUN mv /etc/apt/docker-clean-disabled /etc/apt/apt.conf.d/docker-clean
+
+CMD vncserver -fg

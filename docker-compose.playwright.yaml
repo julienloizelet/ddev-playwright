@@ -35,5 +35,4 @@ services:
       - ../:/var/www/html:rw
     external_links:
       - ddev-router:${DDEV_HOSTNAME}
-    command: vncserver -fg
     working_dir: /var/www/html

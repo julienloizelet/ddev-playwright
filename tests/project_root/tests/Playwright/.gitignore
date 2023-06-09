@@ -5,5 +5,7 @@
 # This file comes from https://github.com/julienloizelet/ddev-playwright
 #
 node_modules
+pw-browsers
+test-results
 .env
 yarn.lock

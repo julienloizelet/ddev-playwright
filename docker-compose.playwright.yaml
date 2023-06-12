@@ -20,13 +20,13 @@ services:
       - NETWORK_IFACE=eth0
       - DISPLAY=:1
       - VIRTUAL_HOST=$DDEV_HOSTNAME
-      - HTTP_EXPOSE=8443:8444,9323:9324
-      - HTTPS_EXPOSE=8444:8444,9324:9324
+      - HTTP_EXPOSE=8443:8444,9322:9323
+      - HTTPS_EXPOSE=8444:8444,9323:9323
       - DDEV_UID=${DDEV_UID}
       - DDEV_GID=${DDEV_GID}
     expose:
       - "8444"
-      - "9324"
+      - "9323"
     depends_on:
       - web
     volumes:

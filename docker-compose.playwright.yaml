@@ -4,9 +4,9 @@
 #
 # This file comes from https://github.com/julienloizelet/ddev-playwright
 #
-version: '3.6'
 services:
   playwright:
+    # If on arm64 machine, edit to use mcr.microsoft.com/playwright:focal-arm64
     image: mcr.microsoft.com/playwright:focal
     container_name: ddev-${DDEV_SITENAME}-playwright
     hostname: ${DDEV_SITENAME}-playwright
@@ -22,4 +22,4 @@ services:
       - ../:/var/www/html:rw
     external_links:
       - ddev-router:${DDEV_HOSTNAME}
-    command: tail -F anything
+    command: tail -f /dev/null

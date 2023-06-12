@@ -4,7 +4,6 @@
 #
 # This file comes from https://github.com/julienloizelet/ddev-playwright
 #
-version: '3.6'
 services:
   playwright:
     build:

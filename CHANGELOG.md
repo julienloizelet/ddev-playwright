@@ -12,6 +12,17 @@ The public API for this project is defined by the files `docker-compose.playwrig
 
 ------
 
+## [1.0.2](https://github.com/julienloizelet/ddev-playwright/releases/tag/v1.0.1) - 2023-06-12
+[_Compare with previous release_](https://github.com/julienloizelet/ddev-playwright/compare/v1.0.1...v1.0.2)
+
+### Fixed
+
+- Fix docker-compose file
+
+
+---
+
+
 ## [1.0.1](https://github.com/julienloizelet/ddev-playwright/releases/tag/v1.0.1) - 2023-02-07
 [_Compare with previous release_](https://github.com/julienloizelet/ddev-playwright/compare/v1.0.0...v1.0.1)
 

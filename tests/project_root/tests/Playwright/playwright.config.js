@@ -1,4 +1,3 @@
-//ddev-generated
 // @ts-check
 const { defineConfig, devices } = require('@playwright/test');
 

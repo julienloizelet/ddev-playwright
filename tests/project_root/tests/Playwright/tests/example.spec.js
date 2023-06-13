@@ -1,4 +1,3 @@
-//ddev-generated
 const {test, expect} = require('@playwright/test');
 
 const {

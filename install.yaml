@@ -2,4 +2,10 @@ name: playwright
 
 # list of files and directories listed that are copied into project .ddev directory
 project_files:
+- commands/playwright/playwright
+- commands/playwright/playwright-install
+- playwright-build/Dockerfile
+- playwright-build/kasmvnc.yaml
+- playwright-build/xstartup
+- playwright-build/entrypoint.sh
 - docker-compose.playwright.yaml

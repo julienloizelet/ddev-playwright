@@ -10,7 +10,7 @@ echo '
 
 <body>
     <h1>The way is clear!</h1>
-    <p>In this example page, if you can see this text, it means nothing.</p>
+    <main>Playwright is working!</main>
 </body>
 </html>
 ';

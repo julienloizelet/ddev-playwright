@@ -24,27 +24,89 @@ This DDEV add-on allows you to use Playwright in a separate `playwright` service
 
 ## Installation
 
-`ddev get julienloizelet/ddev-playwright && ddev restart`
+```bash
+ddev get julienloizelet/ddev-playwright
+ddev restart
+```
 
 ## Basic usage
 
-You can run all the basic `yarn` commands in the `playwright` container. 
+### Add-on commands for `@playwright/test`
 
-As an example, you will find some testing and configuration files in the `tests/testdata/yarn` folder of this project.
+#### `ddev playwright-install`
 
-### Yarn install
+This command will install `playwright` and all dependencies in a Playwright folder defined by the environment variable `PLAYWRIGHT_TEST_DIR` of the `docker-compose.playwright.yaml` file. By default, `tests/Playwright` is used but you can modify this value to suit your needs.
 
-`ddev exec -s playwright yarn install --cwd ./var/www/html/yarn --force`
+Before running this command, ensure that you have a `package.json` file in the Playwright folder. You will find an example of such a file in the `tests/project_root/tests/Playwright`folder of this repository. You will also find an example of a `playwright.config.js` file.
 
-### Launch Playwright test 
+If there is a `.env.example` file in the folder, it will be copied into a `.env` file (to be used with the `dotenv` package for example).
 
-`ddev exec -s playwright yarn --cwd /var/www/html/yarn test "__tests__/1-simple-test.js"`
+#### `ddev playwright`
 
+You can run all the playwright command with `ddev playwright [command]`.
+
+- To run playwright's test command: 
+
+  ```bash
+  ddev playwright test
+  ```
+
+- To run with the UI.
+
+  ```bash
+  ddev playwright test --headed
+  ```
+
+- To generate playwright report
+
+  ```bash
+  ddev playwright show-report --host 0.0.0.0
+  ```
+
+  and then browse to `https://<PROJECT>.ddev.site:9323`
+
+  ![show report](./docs/show-report.jpg)
+
+
+
+### VNC server
+
+When running in UI/headed mode, you can use the provided Kasmvnc service by browsing to `https://<PROJECT>.ddev.site:8444`
+
+![kasmvnc](./docs/kasmvnc.jpg)
+
+It could be also used to generate playwright code by browsing with the following command: 
+
+```bash
+ddev playwright codegen
+```
+
+### Other commands
+
+As for any DDEV additional service, you can use the `ddev exec -s playwright [command]` snippet to run a command in the playwright container.
+
+For example: 
+
+- `ddev exec -s playwright yarn install --cwd ./var/www/html/yarn --force`
+- `ddev exec -s playwright yarn --cwd /var/www/html/yarn test "__tests__/1-simple-test.js"`
+
+## Technical notes
+
+### arm64
+
+On arm64 machine, edit the `playwright-build/Dockerfile` file to use `mcr.microsoft.com/playwright:focal-arm64` base image.
+
+
+
+## Thanks
+
+[devianintegral/ddev-playwright](https://github.com/deviantintegral/ddev-playwright) is another way of implementing Playwright as a DDEV add-on. The main difference is that this other add-on embeds Playwright in the Web container. Everyone can choose what suits them best.
+
+We'd like to thank [devianintegral](https://github.com/deviantintegral) for the fruitful discussions we've had and the fact that we  are using a few pieces of code taken directly from his repository.
 
 ## Contribute
 
 Anyone is welcome to submit a PR to this repo.
-
 
 **Contributed and maintained by [julienloizelet](https://github.com/julienloizelet)**
 

@@ -13,4 +13,5 @@ PRE="sudo -u pwuser PLAYWRIGHT_BROWSERS_PATH=0 "
 
 $PRE yarn install
 $PRE yarn playwright install --with-deps
-$PRE cp -n .env.example .env || true
+# Conditionally copy an .env file if an example file exists
+[ -f .env.example ] && [ ! -f .env ] && $PRE cp -n .env.example .env; exit 0

@@ -31,13 +31,13 @@ ddev restart
 
 ## Basic usage
 
-### Add-on commands for `@playwright/test`
+### Add-on commands for `@playwright/test` package
 
 #### `ddev playwright-install`
 
 This command will install `playwright` and all dependencies in a Playwright folder defined by the environment variable `PLAYWRIGHT_TEST_DIR` of the `docker-compose.playwright.yaml` file. By default, `tests/Playwright` is used but you can modify this value to suit your needs.
 
-Before running this command, ensure that you have a `package.json` file in the Playwright folder. You will find an example of such a file in the `tests/project_root/tests/Playwright`folder of this repository. You will also find an example of a `playwright.config.js` file.
+**Before running this command**, ensure that you have a `package.json` file in the Playwright folder. You will find an example of such a file in the `tests/project_root/tests/Playwright`folder of this repository. You will also find an example of a `playwright.config.js` file.
 
 If there is a `.env.example` file in the folder, it will be copied into a `.env` file (to be used with the `dotenv` package for example).
 
@@ -66,8 +66,6 @@ You can run all the playwright command with `ddev playwright [command]`.
   and then browse to `https://<PROJECT>.ddev.site:9323`
 
   ![show report](./docs/show-report.jpg)
-
-
 
 ### VNC server
 

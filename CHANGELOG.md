@@ -12,6 +12,24 @@ The public API for this project is defined by the files `docker-compose.playwrig
 
 ------
 
+## [2.0.0](https://github.com/julienloizelet/ddev-playwright/releases/tag/v2.0.0) - 2023-??-??
+[_Compare with previous release_](https://github.com/julienloizelet/ddev-playwright/compare/v1.0.2...v2.0.0)
+
+
+### Changed
+
+- Change `working_dir` to `/var/www/html` in `docker-compose.playwright.yaml` ([@see #5](https://github.com/julienloizelet/ddev-playwright/pull/5))
+
+### Added
+
+- Add `kasmVNC` service for Playwright headed test ([@see #5](https://github.com/julienloizelet/ddev-playwright/pull/5))
+- Add custom commands `ddev playwright` and `ddev playwright-install` ([@see #5](https://github.com/julienloizelet/ddev-playwright/pull/5))
+
+
+---
+
+
+
 ## [1.0.2](https://github.com/julienloizelet/ddev-playwright/releases/tag/v1.0.2) - 2023-06-12
 [_Compare with previous release_](https://github.com/julienloizelet/ddev-playwright/compare/v1.0.1...v1.0.2)
 

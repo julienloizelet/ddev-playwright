@@ -9,8 +9,14 @@
 - [Introduction](#introduction)
 - [Installation](#installation)
 - [Basic usage](#basic-usage)
-  - [Yarn install](#yarn-install)
-  - [Launch Playwright test](#launch-playwright-test)
+  - [Add-on commands for `@playwright/test` package](#add-on-commands-for-playwrighttest-package)
+    - [`ddev playwright-install`](#ddev-playwright-install)
+    - [`ddev playwright`](#ddev-playwright)
+  - [VNC server](#vnc-server)
+  - [Other commands](#other-commands)
+- [Technical notes](#technical-notes)
+  - [arm64](#arm64)
+- [Thanks](#thanks)
 - [Contribute](#contribute)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->

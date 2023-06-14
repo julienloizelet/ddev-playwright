@@ -63,3 +63,47 @@ teardown() {
       exit 1
   fi
 }
+
+
+@test "install from release" {
+  set -eu -o pipefail
+  cd ${TESTDIR} || ( printf "unable to cd to ${TESTDIR}\n" && exit 1 )
+  echo "# ddev get julienloizelet/ddev-playwright with project ${PROJNAME} in ${TESTDIR} ($(pwd))" >&3
+  ddev get julienloizelet/ddev-playwright
+  ddev restart >/dev/null
+
+  echo "# Basic Curl check" >&3
+  CURLVERIF=$(curl https://${PROJNAME}.ddev.site/home.php | grep -o -E "<h1>(.*)</h1>"  | sed 's/<\/h1>//g; s/<h1>//g;' | tr '\n' '#')
+  if [[ $CURLVERIF == "The way is clear!#" ]]
+    then
+      echo "# CURLVERIF OK" >&3
+    else
+      echo "# CURLVERIF KO"
+      echo $CURLVERIF
+      exit 1
+  fi
+
+
+  echo "# Install Playwright in container" >&3
+  ddev playwright-install
+
+  echo "# Run a test" >&3
+  ddev playwright test
+
+  echo "# Test permissions of files written by Playwright container" >&3
+  if [[ $(stat -L -c "%a %G %U" ${PW_DIR}/.env) != $(stat -L -c "%a %G %U" ${PW_DIR}/.env.example) ]]
+    then
+      exit 1
+  fi
+
+  echo "# Curl VNC service" >&3
+  VNC_HTTP_STATUS=$(curl --write-out '%{http_code}' --silent --output /dev/null https://${PROJNAME}.ddev.site:8444)
+  if [[ $VNC_HTTP_STATUS == 200 ]]
+    then
+      echo "# VNC_HTTP_STATUS OK" >&3
+    else
+      echo "# VNC_HTTP_STATUS KO"
+      echo $VNC_HTTP_STATUS
+      exit 1
+  fi
+}

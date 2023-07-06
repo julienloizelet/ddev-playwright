@@ -41,11 +41,22 @@ ddev restart
 
 #### `ddev playwright-install`
 
-This command will install `playwright` and all dependencies in a Playwright folder defined by the environment variable `PLAYWRIGHT_TEST_DIR` of the `docker-compose.playwright.yaml` file. By default, `tests/Playwright` is used but you can modify this value to suit your needs.
+This command will install `playwright` and all dependencies in a folder defined by the environment variable `PLAYWRIGHT_TEST_DIR` of the `docker-compose.playwright.yaml` file. 
 
-**Before running this command**, ensure that you have a `package.json` file in the Playwright folder. You will find an example of such a file in the `tests/project_root/tests/Playwright`folder of this repository. You will also find an example of a `playwright.config.js` file.
+**Before running this command**, ensure that you have a `package.json` file in the `PLAYWRIGHT_TEST_DIR` folder. You will find an example of such a file in the `tests/project_root/tests/Playwright`folder of this repository. You will also find an example of a `playwright.config.js` file.
 
-If there is a `.env.example` file in the folder, it will be copied into a `.env` file (to be used with the `dotenv` package for example).
+By default, `tests/Playwright` is used as `PLAYWRIGHT_TEST_DIR` value, but you can override this value to suit your need by creating a `docker-compose.override.yaml` in the `.ddev`  root directory with the following content: 
+
+```yaml
+services:
+  playwright:
+    environment:
+      - PLAYWRIGHT_TEST_DIR=your/playwright/directory/path
+```
+
+You could also edit the value directly in the `docker-compose.playwright.yaml` file but you risk losing your changes every time you do a  `ddev get julienloizelet/ddev-playwright` (unless you delete the `#ddev-generated` line at the beginning of the file).
+
+In addition, if there is a `.env.example` file in the folder, it will be copied into a `.env` file (to be used with the `dotenv` package for example).
 
 #### `ddev playwright`
 

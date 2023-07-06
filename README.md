@@ -68,7 +68,13 @@ You can run all the playwright command with `ddev playwright [command]`.
   ddev playwright test
   ```
 
-- To run with the UI.
+- To run with the Playwright UI tool.
+
+  ```bash
+  ddev playwright test --ui
+  ```
+
+- To run in headed mode.
 
   ```bash
   ddev playwright test --headed
@@ -111,8 +117,6 @@ For example:
 
 On arm64 machine, edit the `playwright-build/Dockerfile` file to use `mcr.microsoft.com/playwright:focal-arm64` base image.
 
-
-
 ## Thanks
 
 [devianintegral/ddev-playwright](https://github.com/deviantintegral/ddev-playwright) is another way of implementing Playwright as a DDEV add-on. The main difference is that this other add-on embeds Playwright in the Web container. Everyone can choose what suits them best.
@@ -124,4 +128,3 @@ We'd like to thank [devianintegral](https://github.com/deviantintegral) for the 
 Anyone is welcome to submit a PR to this repo.
 
 **Contributed and maintained by [julienloizelet](https://github.com/julienloizelet)**
-

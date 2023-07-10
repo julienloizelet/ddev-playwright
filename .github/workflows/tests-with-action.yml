@@ -42,7 +42,7 @@ jobs:
     steps:
     - uses: actions/checkout@v3
 
-    - uses: julienloizelet/ddev-add-on-test-init@main
+    - uses: julienloizelet/ddev-add-on-test-init@v0.0.1
       with:
         ddev_version: ${{ matrix.ddev_version }}
 

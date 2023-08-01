@@ -14,9 +14,11 @@ usermod -a -G ssl-cert pwuser
 # Install DDEV certificate
 mkcert -install
 
-# Set up .nprm rc if present. This might contain credentials for private registries
-[ -f "/mnt/ddev_config/.homeadditions/.npmrc" ] && ln -s "/mnt/ddev_config/.homeadditions/.npmrc" /home/pwuser/.npmrc
-
+# Set up homeadditions if present
+if [ -d /mnt/ddev_config/.homeadditions ]; then
+    # Since we already modified UID/GID, the -p option preserves the correct permissions
+    cp -pr /mnt/ddev_config/.homeadditions/. /home/pwuser/
+fi
 
 # Run CMD from parameters as pwuser
 sudo -u pwuser vncserver -fg -disableBasicAuth

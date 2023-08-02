@@ -15,7 +15,8 @@
   - [VNC server](#vnc-server)
   - [Other commands](#other-commands)
 - [Technical notes](#technical-notes)
-  - [arm64](#arm64)
+  - [`arm64`](#arm64)
+  - [`.npmrc` file and `.ddev/.homeadditions`](#npmrc-file-and-ddevhomeadditions)
 - [Thanks](#thanks)
 - [Contribute](#contribute)
 

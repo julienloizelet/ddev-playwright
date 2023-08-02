@@ -19,7 +19,7 @@ The public API for this project is defined by the files `docker-compose.playwrig
 
 ### Changed
 
-- Copies the existing `.ddev/.homeadditions` folder files into `/home/pwuser` during container build so that they are 
+- Copy the existing `.ddev/.homeadditions` folder files into `/home/pwuser` during container build so that they are 
   readable by the `pwuser` that installs playwright ([@see #10](https://github.com/julienloizelet/ddev-playwright/pull/10))
 
 ---

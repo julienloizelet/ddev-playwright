@@ -45,7 +45,9 @@ This command will install `playwright` and all dependencies in a folder defined 
 
 **Before running this command**, ensure that you have a `package.json` file in the `PLAYWRIGHT_TEST_DIR` folder. You will find an example of such a file in the `tests/project_root/tests/Playwright`folder of this repository. You will also find an example of a `playwright.config.js` file.
 
-By default, `tests/Playwright` is used as `PLAYWRIGHT_TEST_DIR` value, but you can override this value to suit your need by creating a `docker-compose.override.yaml` in the `.ddev`  root directory with the following content: 
+By default, `tests/Playwright` is used as `PLAYWRIGHT_TEST_DIR` value, but you can override this value to suit your 
+need by creating a `docker-compose.override.yaml` (or any `docker-compose.<some-good-name>.yaml` file) in 
+the `.ddev`  root directory with the following content: 
 
 ```yaml
 services:
@@ -54,7 +56,7 @@ services:
       - PLAYWRIGHT_TEST_DIR=your/playwright/directory/path
 ```
 
-You could also edit the value directly in the `docker-compose.playwright.yaml` file but you risk losing your changes every time you do a  `ddev get julienloizelet/ddev-playwright` (unless you delete the `#ddev-generated` line at the beginning of the file).
+You could also edit the value directly in the `docker-compose.playwright.yaml` file, but you risk losing your changes every time you do a  `ddev get julienloizelet/ddev-playwright` (unless you delete the `#ddev-generated` line at the beginning of the file).
 
 In addition, if there is a `.env.example` file in the folder, it will be copied into a `.env` file (to be used with the `dotenv` package for example).
 
@@ -113,9 +115,19 @@ For example:
 
 ## Technical notes
 
-### arm64
+### `arm64`
 
-On arm64 machine, edit the `playwright-build/Dockerfile` file to use `mcr.microsoft.com/playwright:focal-arm64` base image.
+On `arm64` machine, edit the `playwright-build/Dockerfile` file to use `mcr.microsoft.com/playwright:focal-arm64` base image.
+
+### `.npmrc` file and `.ddev/.homeadditions`
+
+If you wish to use a specific `.npmrc` file (for private NPM registries for example), you just need to place the `.
+npmrc` file in the `.ddev/.homeadditions` folder of your project. This way, the `ddev playwright-install` command 
+will automatically retrieve it.
+
+More generally, all the `.ddev/.homeadditions` folder content is copied to `/home/pwuser` folder when the `playwright` 
+container is build.
+
 
 ## Thanks
 

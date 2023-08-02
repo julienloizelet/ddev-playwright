@@ -13,6 +13,17 @@ The public API for this project is defined by the files `docker-compose.playwrig
 ------
 
 
+## [2.1.0](https://github.com/julienloizelet/ddev-playwright/releases/tag/v2.1.0) - 2023-08-02
+[_Compare with previous release_](https://github.com/julienloizelet/ddev-playwright/compare/v2.0.1...v2.1.0)
+
+
+### Changed
+
+- Copies the existing `.ddev/.homeadditions` folder files into `/home/pwuser` during container build so that they are 
+  readable by the `pwuser` that installs playwright ([@see #10](https://github.com/julienloizelet/ddev-playwright/pull/10))
+
+---
+
 ## [2.0.1](https://github.com/julienloizelet/ddev-playwright/releases/tag/v2.0.1) - 2023-07-10
 [_Compare with previous release_](https://github.com/julienloizelet/ddev-playwright/compare/v2.0.0...v2.0.1)
 

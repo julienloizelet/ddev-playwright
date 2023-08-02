@@ -122,8 +122,7 @@ On `arm64` machine, edit the `playwright-build/Dockerfile` file to use `mcr.micr
 
 ### `.npmrc` file and `.ddev/.homeadditions`
 
-If you wish to use a specific `.npmrc` file (for private NPM registries for example), you just need to place the `.
-npmrc` file in the `.ddev/.homeadditions` folder of your project. This way, the `ddev playwright-install` command 
+If you wish to use a specific `.npmrc` file (for private NPM registries for example), you just need to place the `.npmrc` file in the `.ddev/.homeadditions` folder of your project. This way, the `ddev playwright-install` command 
 will automatically retrieve it.
 
 More generally, all the `.ddev/.homeadditions` folder content is copied to `/home/pwuser` folder when the `playwright` 

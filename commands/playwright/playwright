@@ -5,6 +5,9 @@
 #
 # This file comes from https://github.com/julienloizelet/ddev-playwright
 #
+## Description: Run playwright command
+## Usage: playwright [options] [command]
+## Example: "ddev playwright test"
 cd /var/www/html || exit 1
 cd "${PLAYWRIGHT_TEST_DIR}" || exit 1
 

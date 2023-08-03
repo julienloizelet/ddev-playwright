@@ -5,6 +5,9 @@
 #
 # This file comes from https://github.com/julienloizelet/ddev-playwright
 #
+## Description: Install playwright in PLAYWRIGHT_TEST_DIR
+## Usage: playwright-install
+## Example: "ddev playwright-install"
 cd /var/www/html || exit 1
 cd "${PLAYWRIGHT_TEST_DIR}" || exit 1
 

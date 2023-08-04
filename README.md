@@ -16,7 +16,7 @@
   - [Other commands](#other-commands)
 - [Technical notes](#technical-notes)
   - [`arm64`](#arm64)
-  - [`.npmrc` file and `.ddev/.homeadditions`](#npmrc-file-and-ddevhomeadditions)
+  - [`.npmrc` file and `.ddev/homeadditions`](#npmrc-file-and-ddevhomeadditions)
 - [Thanks](#thanks)
 - [Contribute](#contribute)
 
@@ -120,12 +120,12 @@ For example:
 
 On `arm64` machine, edit the `playwright-build/Dockerfile` file to use `mcr.microsoft.com/playwright:focal-arm64` base image.
 
-### `.npmrc` file and `.ddev/.homeadditions`
+### `.npmrc` file and `.ddev/homeadditions`
 
-If you wish to use a specific `.npmrc` file (for private NPM registries for example), you just need to place the `.npmrc` file in the `.ddev/.homeadditions` folder of your project. This way, the `ddev playwright-install` command 
+If you wish to use a specific `.npmrc` file (for private NPM registries for example), you just need to place the `.npmrc` file in the `.ddev/homeadditions` folder of your project. This way, the `ddev playwright-install` command 
 will automatically retrieve it.
 
-More generally, all the `.ddev/.homeadditions` folder content is copied to `/home/pwuser` folder when the `playwright` 
+More generally, all the `.ddev/homeadditions` folder content is copied to `/home/pwuser` folder when the `playwright` 
 container is build.
 
 

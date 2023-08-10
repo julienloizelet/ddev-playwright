@@ -42,19 +42,11 @@ jobs:
     steps:
     - uses: actions/checkout@v3
 
-    - uses: julienloizelet/ddev-add-on-test-init@v0.1.0
+    - uses: julienloizelet/ddev-add-on-test@v0.2.0
       with:
         ddev_version: ${{ matrix.ddev_version }}
-
-    - name: tmate debugging session
-      uses: mxschmitt/action-tmate@v3
-      with:
-        limit-access-to-actor: true
-        github-token: ${{ secrets.GITHUB_TOKEN }}
-      if: github.event.inputs.debug_enabled == 'true'
-
-    - name: tests
-      run: bats tests
+        token: ${{ secrets.GITHUB_TOKEN }}
+        debug_enabled: ${{ github.event.inputs.debug_enabled }}
 
     # keepalive-workflow adds a dummy commit if there's no other action here, keeps
     # GitHub from turning off tests after 60 days

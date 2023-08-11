@@ -19,9 +19,6 @@ on:
 permissions:
   contents: write
 
-env:
-  DDEV_GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
 jobs:
   tests-with-action:
 

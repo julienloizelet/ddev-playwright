@@ -31,7 +31,7 @@ jobs:
 
     steps:
 
-    - uses: ddev/ddev-add-on-test@v0.3.0
+    - uses: ddev/ddev-add-on-test@v0
       with:
         ddev_version: ${{ matrix.ddev_version }}
         token: ${{ secrets.GITHUB_TOKEN }}

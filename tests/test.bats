@@ -107,3 +107,35 @@ teardown() {
       exit 1
   fi
 }
+
+@test "it uses NPM package manager" {
+  set -eu -o pipefail
+  cd ${TESTDIR}
+
+  echo "# Basic Curl check" >&3
+  CURLVERIF=$(curl https://${PROJNAME}.ddev.site/home.php | grep -o -E "<h1>(.*)</h1>"  | sed 's/<\/h1>//g; s/<h1>//g;' | tr '\n' '#')
+  if [[ $CURLVERIF == "The way is clear!#" ]]
+    then
+      echo "# CURLVERIF OK" >&3
+    else
+      echo "# CURLVERIF KO"
+      echo $CURLVERIF
+      exit 1
+  fi
+
+  echo "# ddev get ${DIR} with project ${PROJNAME} in ${TESTDIR} ($(pwd))" >&3
+  ddev get ${DIR}
+  ddev restart
+
+  # Install a package with NPM to generate ".lock" file
+  ddev npm add playwright-helpers
+
+  echo "# Install Playwright in container" >&3
+  ddev playwright-install
+
+  if [ -e "yarn.lock" ]; then
+      echo "Yarn appears to have been used"
+      exit 1
+  fi
+
+}

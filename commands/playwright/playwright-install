@@ -14,7 +14,13 @@ cd "${PLAYWRIGHT_TEST_DIR}" || exit 1
 export PLAYWRIGHT_BROWSERS_PATH=0
 PRE="sudo -u pwuser PLAYWRIGHT_BROWSERS_PATH=0 "
 
-$PRE yarn install
-$PRE yarn playwright install --with-deps
+if [ -e "package-lock.json" ]; then
+  $PRE npm install
+  $PRE npm playwright install --with-deps
+else
+  $PRE yarn install
+  $PRE yarn playwright install --with-deps
+fi
+
 # Conditionally copy an .env file if an example file exists
 [ -f .env.example ] && [ ! -f .env ] && $PRE cp -n .env.example .env; exit 0

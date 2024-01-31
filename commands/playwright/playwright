@@ -14,4 +14,8 @@ cd "${PLAYWRIGHT_TEST_DIR}" || exit 1
 export PLAYWRIGHT_BROWSERS_PATH=0
 PRE="sudo -u pwuser PLAYWRIGHT_BROWSERS_PATH=0 "
 
-$PRE yarn playwright "$@"
+if [ -e "package-lock.json" ]; then
+  $PRE npm playwright "$@"
+else
+  $PRE yarn playwright "$@"
+fi

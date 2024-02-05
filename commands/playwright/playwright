@@ -15,7 +15,7 @@ export PLAYWRIGHT_BROWSERS_PATH=0
 PRE="sudo -u pwuser PLAYWRIGHT_BROWSERS_PATH=0 "
 
 if [ -e "package-lock.json" ]; then
-  $PRE npm playwright "$@"
+  $PRE npx playwright "$@"
 else
   $PRE yarn playwright "$@"
 fi

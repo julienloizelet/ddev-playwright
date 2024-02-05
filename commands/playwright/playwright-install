@@ -14,9 +14,9 @@ cd "${PLAYWRIGHT_TEST_DIR}" || exit 1
 export PLAYWRIGHT_BROWSERS_PATH=0
 PRE="sudo -u pwuser PLAYWRIGHT_BROWSERS_PATH=0 "
 
-if [ -e "package-lock.json" ]; then
+if [ -e "/var/www/html/package-lock.json" ]; then
   $PRE npm install
-  $PRE npm playwright install --with-deps
+  $PRE npm init playwright@latest -y
 else
   $PRE yarn install
   $PRE yarn playwright install --with-deps

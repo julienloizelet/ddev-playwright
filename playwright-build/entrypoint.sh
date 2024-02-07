@@ -7,8 +7,8 @@
 #
 
 # Change pwuser IDs to the host IDs supplied by DDEV
-usermod -u ${DDEV_UID} pwuser
-groupmod -g ${DDEV_GID} pwuser
+usermod -u "${DDEV_UID}" pwuser
+groupmod -g "${DDEV_GID}" pwuser
 usermod -a -G ssl-cert pwuser
 
 # Install DDEV certificate

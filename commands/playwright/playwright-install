@@ -6,15 +6,46 @@
 # This file comes from https://github.com/julienloizelet/ddev-playwright
 #
 ## Description: Install playwright in PLAYWRIGHT_TEST_DIR
-## Usage: playwright-install
+## Usage: playwright-install --pm [npm|yarn|pnpm]
 ## Example: "ddev playwright-install"
+
+function display_help() {
+    echo "Usage: $0 --pm [yarn|npm]"
+    echo "Example: $0 --pm yarn"
+    exit 1
+}
+
+# Default package manager is not set
+PACKAGE_MANAGER=""
+
+while [[ "$#" -gt 0 ]]; do
+    case $1 in
+        --pm) PACKAGE_MANAGER="$2"; shift ;;
+        *) echo "Unknown parameter passed: $1"; display_help ;;
+    esac
+    shift
+done
+
+# Check if package manager is specified and valid
+if [[ -z "$PACKAGE_MANAGER" ]] || ! { [[ "$PACKAGE_MANAGER" == "yarn" ]] || [[ "$PACKAGE_MANAGER" == "npm" ]]; }; then
+    echo "Warning: Package manager should be specified with --pm and be one of 'yarn' or 'npm'."
+    echo "Defaulting to yarn"
+    PACKAGE_MANAGER="yarn"
+fi
+
 cd /var/www/html || exit 1
 cd "${PLAYWRIGHT_TEST_DIR}" || exit 1
 
 export PLAYWRIGHT_BROWSERS_PATH=0
 PRE="sudo -u pwuser PLAYWRIGHT_BROWSERS_PATH=0 "
 
-$PRE yarn install
-$PRE yarn playwright install --with-deps
+if [[ $PACKAGE_MANAGER == "npm" ]]; then
+    $PRE npm install
+    $PRE npm install playwright
+elif [[ $PACKAGE_MANAGER == "yarn" ]]; then
+    $PRE yarn install
+    $PRE yarn playwright install --with-deps
+fi
+
 # Conditionally copy an .env file if an example file exists
 [ -f .env.example ] && [ ! -f .env ] && $PRE cp -n .env.example .env; exit 0

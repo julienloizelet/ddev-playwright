@@ -4,6 +4,7 @@ name: playwright
 project_files:
 - commands/playwright/playwright
 - commands/playwright/playwright-install
+- commands/playwright/playwright-init
 - playwright-build/Dockerfile
 - playwright-build/kasmvnc.yaml
 - playwright-build/xstartup

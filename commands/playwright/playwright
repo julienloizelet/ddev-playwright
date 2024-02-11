@@ -14,4 +14,12 @@ cd "${PLAYWRIGHT_TEST_DIR}" || exit 1
 export PLAYWRIGHT_BROWSERS_PATH=0
 PRE="sudo -u pwuser PLAYWRIGHT_BROWSERS_PATH=0 "
 
-$PRE yarn playwright "$@"
+if [ -f "package-lock.json" ]; then
+  $PRE npx playwright "$@"
+elif [ -f "yarn.lock" ]; then
+  $PRE yarn playwright "$@" 
+else
+  echo "ERROR: could not find lock file for a supported package manager (npm, yarn) in '${PLAYWRIGHT_TEST_DIR}'"
+  echo "Please run 'ddev playwright-install' or 'ddev playwright-init' to install playwright."
+  exit 1
+fi

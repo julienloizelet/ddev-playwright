@@ -41,7 +41,7 @@ PRE="sudo -u pwuser PLAYWRIGHT_BROWSERS_PATH=0 "
 
 if [[ $PACKAGE_MANAGER == "npm" ]]; then
     $PRE npm install
-    $PRE npm playwright install --with-deps
+    $PRE npx playwright install --with-deps
 elif [[ $PACKAGE_MANAGER == "yarn" ]]; then
     $PRE yarn install
     $PRE yarn playwright install --with-deps

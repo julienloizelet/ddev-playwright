@@ -128,7 +128,7 @@ teardown() {
   ddev get ${DIR}
   ddev restart
 
-  echo "# Install Playwright in container with yar" >&3
+  echo "# Install Playwright in container with yarn" >&3
   ddev playwright-install --pm yarn
 
   echo "# Run a test" >&3
@@ -163,7 +163,7 @@ teardown() {
   ddev get ${DIR}
   ddev restart
 
-  echo "# Install Playwright in container with yar" >&3
+  echo "# Install Playwright in container with npm" >&3
   ddev playwright-install --pm npm
 
   echo "# Run a test" >&3

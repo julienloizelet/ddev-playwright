@@ -16,7 +16,7 @@
   - [Other commands](#other-commands)
 - [Technical notes](#technical-notes)
   - [`arm64`](#arm64)
-  - [`.npmrc` file and `.ddev/.homeadditions`](#npmrc-file-and-ddevhomeadditions)
+  - [`.npmrc` file and `.ddev/homeadditions`](#npmrc-file-and-ddevhomeadditions)
 - [Thanks](#thanks)
 - [Contribute](#contribute)
 
@@ -38,17 +38,21 @@ ddev restart
 
 ## Basic usage
 
-### Add-on commands for `@playwright/test` package
+### Quick start
 
-#### `ddev playwright-install`
+- Create a `tests/Playwright` folder in your project root directory (Only required for this "quick start").
+- `ddev playwright-init --pm npm`
+- `ddev playwright test`
 
-This command will install `playwright` and all dependencies in a folder defined by the environment variable `PLAYWRIGHT_TEST_DIR` of the `docker-compose.playwright.yaml` file. 
+### Customization
 
-**Before running this command**, ensure that you have a `package.json` file in the `PLAYWRIGHT_TEST_DIR` folder. You will find an example of such a file in the `tests/project_root/tests/Playwright`folder of this repository. You will also find an example of a `playwright.config.js` file.
+#### Playwright testing directory
 
-By default, `tests/Playwright` is used as `PLAYWRIGHT_TEST_DIR` value, but you can override this value to suit your 
-need by creating a `docker-compose.override.yaml` (or any `docker-compose.<some-good-name>.yaml` file) in 
-the `.ddev`  root directory with the following content: 
+Each command of this add-on runs inside the `PLAYWRIGHT_TEST_DIR` directory of the Playwright container.
+
+By default, `tests/Playwright` is used as `PLAYWRIGHT_TEST_DIR` value, but you can override this value to suit your
+need by creating a `docker-compose.override.yaml` (or any `docker-compose.<some-good-name>.yaml` file) in
+the `.ddev`  root directory with the following content:
 
 ```yaml
 services:
@@ -57,9 +61,41 @@ services:
       - PLAYWRIGHT_TEST_DIR=your/playwright/directory/path
 ```
 
+If you want to use the root directory of your project, you can use the following value:
+
+```yaml
+services:
+  playwright:
+    environment:
+      - PLAYWRIGHT_TEST_DIR=./
+```
+
+
 You could also edit the value directly in the `docker-compose.playwright.yaml` file, but you risk losing your changes every time you do a  `ddev get julienloizelet/ddev-playwright` (unless you delete the `#ddev-generated` line at the beginning of the file).
 
-In addition, if there is a `.env.example` file in the folder, it will be copied into a `.env` file (to be used with the `dotenv` package for example).
+#### `.env` file
+
+If there is a `.env.example` file in the `PLAYWRIGHT_TEST_DIR` folder, it will be copied (while running `ddev playwright-install` or `ddev playwright-init` )into a `.env` file (to be used with the `dotenv` package for example).
+
+### Add-on commands for `@playwright/test` package
+
+
+#### `ddev playwright-install --pm [npm|yarn]`
+
+This command will install `playwright` and all dependencies in a folder defined by the environment variable `PLAYWRIGHT_TEST_DIR` of the `docker-compose.playwright.yaml` file.
+
+You can choose to use `npm` or `yarn` as package manager by using the `--pm` option. By default, `yarn` is used.
+
+
+**Before running this command**, ensure that you have a `package.json` file in the `PLAYWRIGHT_TEST_DIR` folder. You will find an example of such a file in the `tests/project_root/tests/Playwright`folder of this repository. You will also find an example of a `playwright.config.js` file.
+
+#### `ddev playwright-init --pm [npm|yarn]`
+
+This command will initialize a Playwright project in the `PLAYWRIGHT_TEST_DIR` as described in the [Playwright documentation](https://playwright.dev/docs/intro#installing-playwright).
+
+You can choose to use `npm` or `yarn` as package manager by using the `--pm` option. By default, `yarn` is used.
+
+Please note that this command is interactive and [should not be used in CI context](https://github.com/microsoft/playwright/issues/11843).
 
 #### `ddev playwright`
 
@@ -120,13 +156,12 @@ For example:
 
 On `arm64` machine, edit the `playwright-build/Dockerfile` file to use `mcr.microsoft.com/playwright:focal-arm64` base image.
 
-### `.npmrc` file and `.ddev/.homeadditions`
+### `.npmrc` file and `.ddev/homeadditions`
 
-If you wish to use a specific `.npmrc` file (for private NPM registries for example), you just need to place the `.
-npmrc` file in the `.ddev/.homeadditions` folder of your project. This way, the `ddev playwright-install` command 
+If you wish to use a specific `.npmrc` file (for private NPM registries for example), you just need to place the `.npmrc` file in the `.ddev/homeadditions` folder of your project. This way, the `ddev playwright-install` command 
 will automatically retrieve it.
 
-More generally, all the `.ddev/.homeadditions` folder content is copied to `/home/pwuser` folder when the `playwright` 
+More generally, all the `.ddev/homeadditions` folder content is copied to `/home/pwuser` folder when the `playwright` 
 container is build.
 
 

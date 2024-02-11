@@ -29,14 +29,13 @@ ENV CAROOT=/mnt/ddev-global-cache/mkcert
 RUN export TARGETPLATFORM=linux/$(uname -m | sed 's/x86_64/amd64/;s/aarch64/arm64/') && mkdir -p /usr/local/bin && curl --fail -JL -s -o /usr/local/bin/mkcert "https://dl.filippo.io/mkcert/latest?for=${TARGETPLATFORM}"
 RUN chmod +x /usr/local/bin/mkcert
 
-
 # Install a window manager.
 RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
       --mount=type=cache,target=/var/lib/apt,sharing=locked \
     apt-get update \
     && apt-get install -y icewm xauth
 
-# Install kasmvnc for remote access.
+# Install KasmVNC for remote access.
 RUN /bin/bash -c 'if [ $(arch) == "aarch64" ]; then KASM_ARCH=arm64; else KASM_ARCH=amd64; fi; wget https://github.com/kasmtech/KasmVNC/releases/download/v1.1.0/kasmvncserver_bullseye_1.1.0_${KASM_ARCH}.deb'
 RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
       --mount=type=cache,target=/var/lib/apt,sharing=locked \
@@ -45,13 +44,12 @@ RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
 # We're done with apt so disable caching again for the final image.
 RUN mv /etc/apt/docker-clean-disabled /etc/apt/apt.conf.d/docker-clean
 
-# prepare KasmVNC
+# Prepare KasmVNC
 RUN sudo -u pwuser mkdir /home/pwuser/.vnc
 COPY kasmvnc.yaml xstartup /home/pwuser/.vnc/
 RUN chown pwuser:pwuser /home/pwuser/.vnc/*
 RUN sudo -u pwuser touch /home/pwuser/.vnc/.de-was-selected
 RUN sudo -u pwuser /bin/bash -c 'echo -e "secret\nsecret\n" | kasmvncpasswd -wo -u pwuser' # We actually disable auth, but KASM complains without it
-
 
 COPY entrypoint.sh /root/entrypoint.sh
 ENTRYPOINT "/root/entrypoint.sh"

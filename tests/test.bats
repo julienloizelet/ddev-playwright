@@ -107,3 +107,74 @@ teardown() {
       exit 1
   fi
 }
+
+
+@test "install with yarn" {
+  set -eu -o pipefail
+  cd ${TESTDIR}
+
+  echo "# Basic Curl check" >&3
+    CURLVERIF=$(curl https://${PROJNAME}.ddev.site/home.php | grep -o -E "<h1>(.*)</h1>"  | sed 's/<\/h1>//g; s/<h1>//g;' | tr '\n' '#')
+    if [[ $CURLVERIF == "The way is clear!#" ]]
+      then
+        echo "# CURLVERIF OK" >&3
+      else
+        echo "# CURLVERIF KO"
+        echo $CURLVERIF
+        exit 1
+    fi
+
+  echo "# ddev get ${DIR} with project ${PROJNAME} in ${TESTDIR} ($(pwd))" >&3
+  ddev get ${DIR}
+  ddev restart
+
+  echo "# Install Playwright in container with yarn" >&3
+  ddev playwright-install --pm yarn
+
+  echo "# Run a test" >&3
+  ddev playwright test
+
+  echo "# Test yarn lock file" >&3
+  cd tests/Playwright
+  if [ -f "yarn.lock" ]; then
+        echo "Yarn appears to have been used: OK"
+  else
+        echo "Yarn lock file not found: KO"
+        exit 1
+  fi
+}
+
+@test "install with npm" {
+  set -eu -o pipefail
+  cd ${TESTDIR}
+
+  echo "# Basic Curl check" >&3
+    CURLVERIF=$(curl https://${PROJNAME}.ddev.site/home.php | grep -o -E "<h1>(.*)</h1>"  | sed 's/<\/h1>//g; s/<h1>//g;' | tr '\n' '#')
+    if [[ $CURLVERIF == "The way is clear!#" ]]
+      then
+        echo "# CURLVERIF OK" >&3
+      else
+        echo "# CURLVERIF KO"
+        echo $CURLVERIF
+        exit 1
+    fi
+
+  echo "# ddev get ${DIR} with project ${PROJNAME} in ${TESTDIR} ($(pwd))" >&3
+  ddev get ${DIR}
+  ddev restart
+
+  echo "# Install Playwright in container with npm" >&3
+  ddev playwright-install --pm npm
+
+  echo "# Run a test" >&3
+  ddev playwright test
+
+  echo "# Test npm lock file" >&3
+  cd tests/Playwright
+  if [ -f "package-lock.json" ]; then
+        echo "Npm appears to have been used: OK"
+  else
+        echo "Npm lock file not found: KO"
+        exit 1
+  fi
+}

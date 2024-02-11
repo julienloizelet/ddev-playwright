@@ -20,6 +20,6 @@ elif [ -f "yarn.lock" ]; then
   $PRE yarn playwright "$@" 
 else
   echo "ERROR: could not find lock file for a supported package manager (npm, yarn) in '${PLAYWRIGHT_TEST_DIR}'"
-  echo "Please run 'ddev playwright-install' to install playwright."
+  echo "Please run 'ddev playwright-install' or 'ddev playwright-init' to install playwright."
   exit 1
 fi

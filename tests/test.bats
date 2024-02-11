@@ -138,7 +138,6 @@ teardown() {
   cd tests/Playwright
   if [ -f "yarn.lock" ]; then
         echo "Yarn appears to have been used: OK"
-        exit 0
   else
         echo "Yarn lock file not found: KO"
         exit 1
@@ -174,7 +173,6 @@ teardown() {
   cd tests/Playwright
   if [ -f "package-lock.json" ]; then
         echo "Npm appears to have been used: OK"
-        exit 0
   else
         echo "Npm lock file not found: KO"
         exit 1

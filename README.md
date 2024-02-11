@@ -82,27 +82,117 @@ You could also edit the value directly in the `docker-compose.playwright.yaml` f
 
 If there is a `.env.example` file in the `PLAYWRIGHT_TEST_DIR` folder, it will be copied (while running `ddev playwright-install` or `ddev playwright-init` )into a `.env` file (to be used with the `dotenv` package for example).
 
-### Add-on commands for `@playwright/test` package
+### Add-on commands
 
 
-#### `ddev playwright-install --pm [npm|yarn]`
+#### Install Playwright from a `package.json` file
+
+- `ddev playwright-install --pm [npm|yarn]`
 
 This command will install `playwright` and all dependencies in a folder defined by the environment variable `PLAYWRIGHT_TEST_DIR` of the `docker-compose.playwright.yaml` file.
 
 You can choose to use `npm` or `yarn` as package manager by using the `--pm` option. By default, `yarn` is used.
 
 
-**Before running this command**, ensure that you have a `package.json` file in the `PLAYWRIGHT_TEST_DIR` folder. You will find an example of such a file in the `tests/project_root/tests/Playwright`folder of this repository. You will also find an example of a `playwright.config.js` file.
+**Before running this command**, ensure that you have a `package.json` file in the `PLAYWRIGHT_TEST_DIR` folder. 
 
-#### `ddev playwright-init --pm [npm|yarn]`
+You will find an example of such a file in the `tests/project_root/tests/Playwright`folder of this repository. 
+
+<details>
+
+<summary>Example of package.json file</summary>
+
+```json
+{
+  "license": "MIT",
+  "dependencies": {
+      "@playwright/test": "^1.34.2",
+      "dotenv": "^16.0.3"
+  }
+}
+```
+
+</details>
+
+
+You will also find an example of a `playwright.config.js` file.
+
+<details>
+<summary>Example of playwright.config.js file</summary>
+
+```javascript
+// @ts-check
+const { defineConfig, devices } = require('@playwright/test');
+
+require('dotenv').config({ path: '.env' });
+
+/**
+ * @see https://playwright.dev/docs/test-configuration
+ */
+module.exports = defineConfig({
+    testDir: './tests',
+    /* Run tests in files in parallel */
+    fullyParallel: true,
+    /* Fail the build on CI if you accidentally left test.only in the source code. */
+    forbidOnly: !!process.env.CI,
+    /* Retry on CI only */
+    retries: process.env.CI ? 2 : 0,
+    /* Opt out of parallel tests on CI. */
+    workers: process.env.CI ? 1 : undefined,
+    /* Reporter to use. See https://playwright.dev/docs/test-reporters */
+    reporter: [
+        [process.env.CI ? 'github' : 'list'],
+        ['html', {open: 'never'}],
+    ],
+    /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
+    use: {
+        /* Base URL to use in actions like `await page.goto('/')`. */
+        baseURL: process.env.BASEURL,
+        ignoreHTTPSErrors: true,
+        /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
+        trace: 'on-first-retry',
+    },
+
+    /* Configure projects for major browsers */
+    projects: [
+        {
+            name: 'chromium',
+            use: { ...devices['Desktop Chrome'] },
+        },
+
+        {
+            name: 'firefox',
+            use: { ...devices['Desktop Firefox'] },
+        },
+
+        {
+            name: 'webkit',
+            use: { ...devices['Desktop Safari'] },
+        },
+
+    ],
+
+});
+
+
+```
+</details>
+
+
+
+#### Init a Playwright project from scratch
+
+- `ddev playwright-init --pm [npm|yarn]`
 
 This command will initialize a Playwright project in the `PLAYWRIGHT_TEST_DIR` as described in the [Playwright documentation](https://playwright.dev/docs/intro#installing-playwright).
 
 You can choose to use `npm` or `yarn` as package manager by using the `--pm` option. By default, `yarn` is used.
 
-Please note that this command is interactive and [should not be used in CI context](https://github.com/microsoft/playwright/issues/11843).
+**NB:** Please note that this command is interactive and [should not be used in CI context](https://github.com/microsoft/playwright/issues/11843).
 
-#### `ddev playwright`
+#### Run a Playwright command
+
+- `ddev playwright`
 
 You can run all the playwright command with `ddev playwright [command]`.
 

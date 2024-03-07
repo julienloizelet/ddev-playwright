@@ -248,10 +248,6 @@ For example:
 
 ## Technical notes
 
-### `arm64`
-
-On `arm64` machine, edit the `playwright-build/Dockerfile` file to use `mcr.microsoft.com/playwright:focal-arm64` base image.
-
 ### `.npmrc` file and `.ddev/homeadditions`
 
 If you wish to use a specific `.npmrc` file (for private NPM registries for example), you just need to place the `.npmrc` file in the `.ddev/homeadditions` folder of your project. This way, the `ddev playwright-install` command 

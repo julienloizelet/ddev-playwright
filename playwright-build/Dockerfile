@@ -4,7 +4,6 @@
 #
 # This file comes from https://github.com/julienloizelet/ddev-playwright
 #
-# If on arm64 machine, edit to use mcr.microsoft.com/playwright:focal-arm64
 FROM mcr.microsoft.com/playwright:focal
 
 # Debian images by default disable apt caching, so turn it on until we finish

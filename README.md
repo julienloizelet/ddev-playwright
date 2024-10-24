@@ -37,8 +37,21 @@ This DDEV add-on allows you to use Playwright in a separate `playwright` service
 
 ## Installation
 
+For DDEV v1.23.5 or above run
+
+```bash
+ddev add-on get julienloizelet/ddev-playwright
+```
+
+For earlier versions of DDEV run
+
 ```bash
 ddev get julienloizelet/ddev-playwright
+```
+
+Then restart your project
+
+```bash
 ddev restart
 ```
 
@@ -77,7 +90,7 @@ services:
 ```
 
 
-You could also edit the value directly in the `docker-compose.playwright.yaml` file, but you risk losing your changes every time you do a  `ddev get julienloizelet/ddev-playwright` (unless you delete the `#ddev-generated` line at the beginning of the file).
+You could also edit the value directly in the `docker-compose.playwright.yaml` file, but you risk losing your changes every time you do a  `ddev add-on get julienloizelet/ddev-playwright` (unless you delete the `#ddev-generated` line at the beginning of the file).
 
 #### `.env` file
 

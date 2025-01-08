@@ -261,7 +261,7 @@ container is build.
 
 ## Thanks
 
-[devianintegral/ddev-playwright](https://github.com/deviantintegral/ddev-playwright) is another way of implementing Playwright as a DDEV add-on. The main difference is that this other add-on embeds Playwright in the Web container. Everyone can choose what suits them best.
+[Lullabot/ddev-playwright](https://github.com/Lullabot/ddev-playwright) is another way of implementing Playwright as a DDEV add-on. The main difference is that this other add-on embeds Playwright in the Web container. Everyone can choose what suits them best.
 
 We'd like to thank [devianintegral](https://github.com/deviantintegral) for the fruitful discussions we've had and the fact that we are using a few pieces of code taken directly from his repository.
 

@@ -10,3 +10,36 @@ project_files:
 - playwright-build/xstartup
 - playwright-build/entrypoint.sh
 - docker-compose.playwright.yaml
+
+post_install_actions:
+  - |
+    #ddev-nodisplay
+    #ddev-description:Checking docker-compose.playwright_extras.yaml for changes
+    if [ -f docker-compose.playwright_extras.yaml ] && ! grep -q '#ddev-generated' docker-compose.playwright_extras.yaml; then
+      echo "Existing docker-compose.playwright_extras.yaml does not have #ddev-generated, so can't be updated"
+      exit 2
+    fi
+  - |
+    #ddev-nodisplay
+    #ddev-description:Adding all hostnames to the playwright container to make them available
+    cat <<-END >docker-compose.playwright_extras.yaml
+    #ddev-generated
+    services:
+      playwright:
+        external_links:
+        {{- $playwright_hostnames := splitList "," (env "DDEV_HOSTNAME") -}}
+        {{- range $i, $n := $playwright_hostnames }}
+          - "ddev-router:{{- replace (env "DDEV_TLD") "\\${DDEV_TLD}" (replace (env "DDEV_PROJECT") "\\${DDEV_PROJECT}" $n) -}}"
+        {{- end }}
+    END
+removal_actions:
+  - |
+    #ddev-nodisplay
+    #ddev-description:Remove docker-compose.playwright_extras.yaml file
+    if [ -f docker-compose.playwright_extras.yaml ]; then
+      if grep -q '#ddev-generated' docker-compose.playwright_extras.yaml; then
+        rm -f docker-compose.playwright_extras.yaml
+      else
+        echo "Unwilling to remove '$DDEV_APPROOT/.ddev/docker-compose.playwright_extras.yaml' because it does not have #ddev-generated in it; you can manually delete it if it is safe to delete."
+      fi
+    fi

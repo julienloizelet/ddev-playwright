@@ -33,6 +33,4 @@ services:
       - .:/mnt/ddev_config
       - ddev-global-cache:/mnt/ddev-global-cache
       - ../:/var/www/html:rw
-    external_links:
-      - ddev-router:${DDEV_HOSTNAME}
     working_dir: /var/www/html

@@ -1,4 +1,4 @@
-[![tests](https://github.com/julienloizelet/ddev-playwright/actions/workflows/tests.yml/badge.svg)](https://github.com/julienloizelet/ddev-playwright/actions/workflows/tests.yml) ![project is maintained](https://img.shields.io/maintenance/yes/2024.svg)
+[![tests](https://github.com/julienloizelet/ddev-playwright/actions/workflows/tests.yml/badge.svg)](https://github.com/julienloizelet/ddev-playwright/actions/workflows/tests.yml) ![project is maintained](https://img.shields.io/maintenance/yes/2025.svg)
 [![Version](https://img.shields.io/github/v/release/julienloizelet/ddev-playwright)](https://github.com/julienloizelet/ddev-playwright/releases)
 
 # ddev-playwright
@@ -30,7 +30,7 @@
 
 ## Introduction
 
-[Playwright](https://playwright.dev) was created to accommodate the needs of end-to-end testing. 
+[Playwright](https://playwright.dev) was created to accommodate the needs of end-to-end testing.
 
 This DDEV add-on allows you to use Playwright in a separate `playwright` service.
 
@@ -54,6 +54,9 @@ Then restart your project
 ```bash
 ddev restart
 ```
+
+> [!NOTE]
+> If you change `additional_hostnames` or `additional_fqdns`, you have to re-run `ddev add-on get julienloizelet/ddev-playwright`
 
 ## Basic usage
 
@@ -108,9 +111,9 @@ This command will install `playwright` and all dependencies in a folder defined 
 You can choose to use `npm` or `yarn` as package manager by using the `--pm` option. By default, `yarn` is used.
 
 
-**Before running this command**, ensure that you have a `package.json` file in the `PLAYWRIGHT_TEST_DIR` folder. 
+**Before running this command**, ensure that you have a `package.json` file in the `PLAYWRIGHT_TEST_DIR` folder.
 
-You will find an example of such a file in the `tests/project_root/tests/Playwright`folder of this repository. 
+You will find an example of such a file in the `tests/project_root/tests/Playwright`folder of this repository.
 
 <details>
 
@@ -210,7 +213,7 @@ You can choose to use `npm` or `yarn` as package manager by using the `--pm` opt
 
 You can run all the playwright command with `ddev playwright [command]`.
 
-- To run playwright's test command: 
+- To run playwright's test command:
 
   ```bash
   ddev playwright test
@@ -244,7 +247,7 @@ When running in UI/headed mode, you can use the provided Kasmvnc service by brow
 
 ![kasmvnc](./docs/kasmvnc.jpg)
 
-It could be also used to generate playwright code by browsing with the following command: 
+It could be also used to generate playwright code by browsing with the following command:
 
 ```bash
 ddev playwright codegen
@@ -254,7 +257,7 @@ ddev playwright codegen
 
 As for any DDEV additional service, you can use the `ddev exec -s playwright [command]` snippet to run a command in the playwright container.
 
-For example: 
+For example:
 
 - `ddev exec -s playwright yarn install --cwd ./var/www/html/yarn --force`
 - `ddev exec -s playwright yarn --cwd /var/www/html/yarn test "__tests__/1-simple-test.js"`
@@ -263,10 +266,10 @@ For example:
 
 ### `.npmrc` file and `.ddev/homeadditions`
 
-If you wish to use a specific `.npmrc` file (for private NPM registries for example), you just need to place the `.npmrc` file in the `.ddev/homeadditions` folder of your project. This way, the `ddev playwright-install` command 
+If you wish to use a specific `.npmrc` file (for private NPM registries for example), you just need to place the `.npmrc` file in the `.ddev/homeadditions` folder of your project. This way, the `ddev playwright-install` command
 will automatically retrieve it.
 
-More generally, all the `.ddev/homeadditions` folder content is copied to `/home/pwuser` folder when the `playwright` 
+More generally, all the `.ddev/homeadditions` folder content is copied to `/home/pwuser` folder when the `playwright`
 container is build.
 
 

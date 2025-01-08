@@ -3,9 +3,10 @@
 
 # ddev-playwright
 
+**Table of Contents**
+
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
-**Table of Contents**
 
 - [Introduction](#introduction)
 - [Installation](#installation)
@@ -21,7 +22,6 @@
   - [VNC server](#vnc-server)
   - [Other commands](#other-commands)
 - [Technical notes](#technical-notes)
-  - [`arm64`](#arm64)
   - [`.npmrc` file and `.ddev/homeadditions`](#npmrc-file-and-ddevhomeadditions)
 - [Thanks](#thanks)
 - [Contribute](#contribute)
@@ -33,7 +33,6 @@
 [Playwright](https://playwright.dev) was created to accommodate the needs of end-to-end testing.
 
 This DDEV add-on allows you to use Playwright in a separate `playwright` service.
-
 
 ## Installation
 
@@ -56,7 +55,7 @@ ddev restart
 ```
 
 > [!NOTE]
-> If you change `additional_hostnames` or `additional_fqdns`, you have to re-run `ddev add-on get julienloizelet/ddev-playwright`
+> If you change `additional_hostnames` or `additional_fqdns`, you have to re-run `ddev add-on get julienloizelet/ddev-playwright`.
 
 ## Basic usage
 
@@ -74,7 +73,7 @@ Each command of this add-on runs inside the `PLAYWRIGHT_TEST_DIR` directory of t
 
 By default, `tests/Playwright` is used as `PLAYWRIGHT_TEST_DIR` value, but you can override this value to suit your
 need by creating a `docker-compose.override.yaml` (or any `docker-compose.<some-good-name>.yaml` file) in
-the `.ddev`  root directory with the following content:
+the `.ddev` root directory with the following content:
 
 ```yaml
 services:
@@ -92,15 +91,13 @@ services:
       - PLAYWRIGHT_TEST_DIR=./
 ```
 
-
-You could also edit the value directly in the `docker-compose.playwright.yaml` file, but you risk losing your changes every time you do a  `ddev add-on get julienloizelet/ddev-playwright` (unless you delete the `#ddev-generated` line at the beginning of the file).
+You could also edit the value directly in the `docker-compose.playwright.yaml` file, but you risk losing your changes every time you do a `ddev add-on get julienloizelet/ddev-playwright` (unless you delete the `#ddev-generated` line at the beginning of the file).
 
 #### `.env` file
 
 If there is a `.env.example` file in the `PLAYWRIGHT_TEST_DIR` folder, it will be copied (while running `ddev playwright-install` or `ddev playwright-init` )into a `.env` file (to be used with the `dotenv` package for example).
 
 ### Add-on commands
-
 
 #### Install Playwright from a `package.json` file
 
@@ -109,7 +106,6 @@ If there is a `.env.example` file in the `PLAYWRIGHT_TEST_DIR` folder, it will b
 This command will install `playwright` and all dependencies in a folder defined by the environment variable `PLAYWRIGHT_TEST_DIR` of the `docker-compose.playwright.yaml` file.
 
 You can choose to use `npm` or `yarn` as package manager by using the `--pm` option. By default, `yarn` is used.
-
 
 **Before running this command**, ensure that you have a `package.json` file in the `PLAYWRIGHT_TEST_DIR` folder.
 
@@ -123,14 +119,13 @@ You will find an example of such a file in the `tests/project_root/tests/Playwri
 {
   "license": "MIT",
   "dependencies": {
-      "@playwright/test": "^1.34.2",
-      "dotenv": "^16.0.3"
+    "@playwright/test": "^1.34.2",
+    "dotenv": "^16.0.3"
   }
 }
 ```
 
 </details>
-
 
 You will also find an example of a `playwright.config.js` file.
 
@@ -139,63 +134,55 @@ You will also find an example of a `playwright.config.js` file.
 
 ```javascript
 // @ts-check
-const { defineConfig, devices } = require('@playwright/test');
+const { defineConfig, devices } = require("@playwright/test");
 
-require('dotenv').config({ path: '.env' });
+require("dotenv").config({ path: ".env" });
 
 /**
  * @see https://playwright.dev/docs/test-configuration
  */
 module.exports = defineConfig({
-    testDir: './tests',
-    /* Run tests in files in parallel */
-    fullyParallel: true,
-    /* Fail the build on CI if you accidentally left test.only in the source code. */
-    forbidOnly: !!process.env.CI,
-    /* Retry on CI only */
-    retries: process.env.CI ? 2 : 0,
-    /* Opt out of parallel tests on CI. */
-    workers: process.env.CI ? 1 : undefined,
-    /* Reporter to use. See https://playwright.dev/docs/test-reporters */
-    reporter: [
-        [process.env.CI ? 'github' : 'list'],
-        ['html', {open: 'never'}],
-    ],
-    /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
-    use: {
-        /* Base URL to use in actions like `await page.goto('/')`. */
-        baseURL: process.env.BASEURL,
-        ignoreHTTPSErrors: true,
-        /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
-        trace: 'on-first-retry',
+  testDir: "./tests",
+  /* Run tests in files in parallel */
+  fullyParallel: true,
+  /* Fail the build on CI if you accidentally left test.only in the source code. */
+  forbidOnly: !!process.env.CI,
+  /* Retry on CI only */
+  retries: process.env.CI ? 2 : 0,
+  /* Opt out of parallel tests on CI. */
+  workers: process.env.CI ? 1 : undefined,
+  /* Reporter to use. See https://playwright.dev/docs/test-reporters */
+  reporter: [[process.env.CI ? "github" : "list"], ["html", { open: "never" }]],
+  /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
+  use: {
+    /* Base URL to use in actions like `await page.goto('/')`. */
+    baseURL: process.env.BASEURL,
+    ignoreHTTPSErrors: true,
+    /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
+    trace: "on-first-retry",
+  },
+
+  /* Configure projects for major browsers */
+  projects: [
+    {
+      name: "chromium",
+      use: { ...devices["Desktop Chrome"] },
     },
 
-    /* Configure projects for major browsers */
-    projects: [
-        {
-            name: 'chromium',
-            use: { ...devices['Desktop Chrome'] },
-        },
+    {
+      name: "firefox",
+      use: { ...devices["Desktop Firefox"] },
+    },
 
-        {
-            name: 'firefox',
-            use: { ...devices['Desktop Firefox'] },
-        },
-
-        {
-            name: 'webkit',
-            use: { ...devices['Desktop Safari'] },
-        },
-
-    ],
-
+    {
+      name: "webkit",
+      use: { ...devices["Desktop Safari"] },
+    },
+  ],
 });
-
-
 ```
+
 </details>
-
-
 
 #### Init a Playwright project from scratch
 
@@ -272,15 +259,16 @@ will automatically retrieve it.
 More generally, all the `.ddev/homeadditions` folder content is copied to `/home/pwuser` folder when the `playwright`
 container is build.
 
-
 ## Thanks
 
 [devianintegral/ddev-playwright](https://github.com/deviantintegral/ddev-playwright) is another way of implementing Playwright as a DDEV add-on. The main difference is that this other add-on embeds Playwright in the Web container. Everyone can choose what suits them best.
 
-We'd like to thank [devianintegral](https://github.com/deviantintegral) for the fruitful discussions we've had and the fact that we  are using a few pieces of code taken directly from his repository.
+We'd like to thank [devianintegral](https://github.com/deviantintegral) for the fruitful discussions we've had and the fact that we are using a few pieces of code taken directly from his repository.
 
 ## Contribute
 
-Anyone is welcome to submit a PR to this repo.
+Anyone is welcome to submit a Pull Request to this repository.
+
+For more details on development processes, please read the [developer guide](./docs/DEVELOPER.md).
 
 **Contributed and maintained by [julienloizelet](https://github.com/julienloizelet)**

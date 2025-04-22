@@ -31,13 +31,12 @@ jobs:
 
     steps:
 
-    - uses: ddev/ddev-add-on-test@v2
+    - uses: julienloizelet/ddev-add-on-test@a8dfa178fbe3beea778a12586b705fd2ffda197e
       with:
         ddev_version: ${{ matrix.ddev_version }}
         token: ${{ secrets.GITHUB_TOKEN }}
         debug_enabled: ${{ github.event.inputs.debug_enabled }}
         addon_repository: ${{ env.GITHUB_REPOSITORY }}
         addon_ref: ${{ env.GITHUB_REF }}
-        keepalive: false
 
 

@@ -38,16 +38,10 @@ This DDEV add-on allows you to use Playwright in a separate `playwright` service
 
 ## Installation
 
-For DDEV v1.23.5 or above run
+Run:
 
 ```bash
 ddev add-on get julienloizelet/ddev-playwright
-```
-
-For earlier versions of DDEV run
-
-```bash
-ddev get julienloizelet/ddev-playwright
 ```
 
 Then restart your project

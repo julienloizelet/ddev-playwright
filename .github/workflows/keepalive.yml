@@ -1,0 +1,65 @@
+name: Keepalive Workflow
+# This workflow is used to keep a workflow alive
+# It must be called by a workflow in the same repository as in the example below:
+#
+# name: Tests
+#
+# on:
+#  schedule:
+#    - cron: "0 0 * * *"
+#
+# jobs:
+#  tests:
+#    name: Run integration tests
+#    steps:
+#     # … whatever  steps you need to run your tests
+#
+#  workflow-keepalive:
+#    if: github.event_name == 'schedule'
+#    runs-on: ubuntu-latest
+#    permissions:
+#      actions: write
+#    uses: ./.github/workflows/keepalive.yml
+
+on:
+  workflow_call:
+
+jobs:
+  enable-workflow:
+    runs-on: ubuntu-latest
+    permissions:
+      actions: write
+    steps:
+      - name: Enable workflow
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+          GITHUB_WORKFLOW_REF: ${{ github.workflow_ref }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
+        run: |
+          # Ensure the workflow ref is valid and matches the expected format
+          # owner/repo/.github/workflows/<some_name>.yml@<ref>
+          case "${GITHUB_WORKFLOW_REF:?}" in
+          "${GITHUB_REPOSITORY:?}"/.github/workflows/*.y*ml@*) ;;
+          *)
+          echo "❌ Invalid workflow ref: ${GITHUB_WORKFLOW_REF}"
+          exit 1
+          ;;
+          esac
+          # Strip the @<ref> from the workflow ref
+          # owner/repo/.github/workflows/tests.yml@refs/heads/main -> owner/repo/.github/workflows/tests.yml
+          workflow="${GITHUB_WORKFLOW_REF%%@*}"
+          # Extract just the filename from the workflow path
+          # owner/repo/.github/workflows/tests.yml -> tests.yml
+          workflow="${workflow#${GITHUB_REPOSITORY}/.github/workflows/}"
+          # Enable the workflow using the GitHub CLI
+          echo "Enabling workflow: $workflow"
+          response=$(gh api -X PUT -i "repos/${GITHUB_REPOSITORY}/actions/workflows/${workflow}/enable")
+          status_code=$(echo "$response" | grep HTTP | awk '{print $2}')
+          echo "Response status code: $status_code"
+          if [ "$status_code" = "204" ]; then
+            echo "✅ Workflow successfully enabled."
+          else
+            echo "❌ Failed to enable workflow. Full response:"
+            echo "$response"
+          exit 1
+          fi

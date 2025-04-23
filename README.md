@@ -1,4 +1,6 @@
-[![tests](https://github.com/julienloizelet/ddev-playwright/actions/workflows/tests.yml/badge.svg)](https://github.com/julienloizelet/ddev-playwright/actions/workflows/tests.yml) ![project is maintained](https://img.shields.io/maintenance/yes/2025.svg)
+[![add-on registry](https://img.shields.io/badge/DDEV-Add--on_Registry-blue)](https://addons.ddev.com)
+[![tests](https://github.com/julienloizelet/ddev-playwright/actions/workflows/tests.yml/badge.svg)](https://github.com/julienloizelet/ddev-playwright/actions/workflows/tests.yml)
+[![last commit](https://img.shields.io/github/last-commit/julienloizelet/ddev-playwright)](https://github.com/julienloizelet/ddev-playwright/commits)
 [![Version](https://img.shields.io/github/v/release/julienloizelet/ddev-playwright)](https://github.com/julienloizelet/ddev-playwright/releases)
 
 # ddev-playwright

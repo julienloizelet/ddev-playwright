@@ -1,4 +1,4 @@
-name: tests
+name: Tests
 on:
   pull_request:
   push:
@@ -17,7 +17,7 @@ on:
         default: false
 
 permissions:
-  actions: write
+  contents: read
 
 jobs:
   tests:
@@ -26,9 +26,7 @@ jobs:
       matrix:
         ddev_version: [stable, HEAD]
       fail-fast: false
-
     runs-on: ubuntu-latest
-
     steps:
 
     - uses: ddev/ddev-add-on-test@v2
@@ -40,3 +38,9 @@ jobs:
         addon_ref: ${{ env.GITHUB_REF }}
 
 
+  workflow-keepalive:
+    name: Keepalive workflow
+    if: github.event_name == 'schedule'
+    uses: ./.github/workflows/keepalive.yml
+    permissions:
+      actions: write

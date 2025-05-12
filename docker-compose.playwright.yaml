@@ -8,6 +8,8 @@ services:
   playwright:
     build:
       context: playwright-build
+      args:
+        PLAYWRIGHT_DOCKER_IMAGE: ${PLAYWRIGHT_DOCKER_IMAGE:-mcr.microsoft.com/playwright:focal}
     container_name: ddev-${DDEV_SITENAME}-playwright
     hostname: ${DDEV_SITENAME}-playwright
     # These labels ensure this service is discoverable by ddev.

@@ -16,6 +16,7 @@
   - [Quick start](#quick-start)
   - [Customization](#customization)
     - [Playwright testing directory](#playwright-testing-directory)
+    - [Docker image](#docker-image)
     - [`.env` file](#env-file)
   - [Add-on commands](#add-on-commands)
     - [Install Playwright from a `package.json` file](#install-playwright-from-a-packagejson-file)
@@ -89,9 +90,31 @@ services:
 
 You could also edit the value directly in the `docker-compose.playwright.yaml` file, but you risk losing your changes every time you do a `ddev add-on get julienloizelet/ddev-playwright` (unless you delete the `#ddev-generated` line at the beginning of the file).
 
+
+#### Docker image
+
+To change the Docker image, you can set the `PLAYWRIGHT_DOCKER_IMAGE` variable in the `.ddev/.env.playwright` file.
+
+For example, to use the `mcr.microsoft.com/playwright:v1.46.0-focal-amd64` image, run the following command:
+
+```bash
+ddev dotenv set .ddev/.env.playwright --playwright-docker-image=mcr.microsoft.com/playwright:v1.46.0-focal-amd64
+ddev add-on get julienloizelet/ddev-playwright
+ddev restart
+```
+
+Make sure to commit the `.ddev/.env.playwright` file to version control.
+
+All customization options (use with caution):
+
+| Variable                  | Flag                        | Default |
+|---------------------------|-----------------------------| ------- |
+| `PLAYWRIGHT_DOCKER_IMAGE` | `--playwright-docker-image` | `mcr.microsoft.com/playwright:focal` |
+
 #### `.env` file
 
-If there is a `.env.example` file in the `PLAYWRIGHT_TEST_DIR` folder, it will be copied (while running `ddev playwright-install` or `ddev playwright-init` )into a `.env` file (to be used with the `dotenv` package for example).
+If there is a `.env.example` file in the `PLAYWRIGHT_TEST_DIR` folder, it will be copied (while running `ddev 
+playwright-install` or `ddev playwright-init` ) into a `.env` file (to be used with the `dotenv` package for example).
 
 ### Add-on commands
 

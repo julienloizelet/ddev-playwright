@@ -4,7 +4,11 @@
 #
 # This file comes from https://github.com/julienloizelet/ddev-playwright
 #
-FROM mcr.microsoft.com/playwright:focal
+ARG PLAYWRIGHT_DOCKER_IMAGE=mcr.microsoft.com/playwright:focal
+FROM ${PLAYWRIGHT_DOCKER_IMAGE}
+
+ARG PLAYWRIGHT_DOCKER_IMAGE
+LABEL PARENT_IMAGE="${PLAYWRIGHT_DOCKER_IMAGE}"
 
 # Debian images by default disable apt caching, so turn it on until we finish
 # the build.

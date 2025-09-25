@@ -12,13 +12,25 @@ The public API for this project is defined by the files `docker-compose.playwrig
 
 ---
 
+## [2.4.0](https://github.com/julienloizelet/ddev-playwright/releases/tag/v2.4.0) - 2025-??-??
+
+[_Compare with previous release_](https://github.com/julienloizelet/ddev-playwright/compare/v2.3.0...v2.4.0)
+
+### Changed
+
+- Set `1.24.9` as the minimum required DDEV version
+- Do not create `docker-compose.playwright_extras.yaml` file anymore as [DDEV 1.24.9+ handles network aliases 
+  automatically](https://github.com/ddev/ddev/pull/7642)
+
+---
+
 ## [2.3.0](https://github.com/julienloizelet/ddev-playwright/releases/tag/v2.3.0) - 2025-05-12
 
 [_Compare with previous release_](https://github.com/julienloizelet/ddev-playwright/compare/v2.2.1...v2.3.0)
 
 ### Added
 
-- - Add `PLAYWRIGHT_DOCKER_IMAGE` variable to customize the Docker image
+- Add `PLAYWRIGHT_DOCKER_IMAGE` variable to customize the Docker image
 
 ---
 

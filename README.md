@@ -51,9 +51,6 @@ Then restart your project
 ddev restart
 ```
 
-> [!NOTE]
-> If you change `additional_hostnames` or `additional_fqdns`, you have to re-run `ddev add-on get julienloizelet/ddev-playwright`.
-
 ## Basic usage
 
 ### Quick start

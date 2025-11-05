@@ -12,7 +12,7 @@ The public API for this project is defined by the files `docker-compose.playwrig
 
 ---
 
-## [2.4.0](https://github.com/julienloizelet/ddev-playwright/releases/tag/v2.4.0) - 2025-??-??
+## [2.4.0](https://github.com/julienloizelet/ddev-playwright/releases/tag/v2.4.0) - 2025-11-05
 
 [_Compare with previous release_](https://github.com/julienloizelet/ddev-playwright/compare/v2.3.0...v2.4.0)
 

@@ -14,30 +14,17 @@
 
 setup() {
   set -eu -o pipefail
-
-  # Override this variable for your add-on:
-  export GITHUB_REPO=julienloizelet/ddev-playwright
-
-  TEST_BREW_PREFIX="$(brew --prefix 2>/dev/null || true)"
-  export BATS_LIB_PATH="${BATS_LIB_PATH}:${TEST_BREW_PREFIX}/lib:/usr/lib/bats"
-  bats_load_library bats-assert
-  bats_load_library bats-file
-  bats_load_library bats-support
-
-  export DIR="$(cd "$(dirname "${BATS_TEST_FILENAME}")/.." >/dev/null 2>&1 && pwd)"
-  export PROJNAME="test-$(basename "${GITHUB_REPO}")"
-  mkdir -p "${HOME}/tmp"
-  export TESTDIR="$(mktemp -d "${HOME}/tmp/${PROJNAME}.XXXXXX")"
+  export DIR="$( cd "$( dirname "$BATS_TEST_FILENAME" )" >/dev/null 2>&1 && pwd )/.."
+  export TESTDIR=~/tmp/ddev-playwright-test
+  export PW_DIR=${TESTDIR}/tests/Playwright
+  mkdir -p $TESTDIR
+  export PROJNAME=ddev-playwright-test
   export DDEV_NONINTERACTIVE=true
   export DDEV_NO_INSTRUMENTATION=true
-  ddev delete -Oy "${PROJNAME}" >/dev/null 2>&1 || true
+  ddev delete -Oy ${PROJNAME} >/dev/null 2>&1 || true
   cd "${TESTDIR}"
-  run ddev config --project-name="${PROJNAME}" --project-tld=ddev.site --docroot=web
-  assert_success
-  run ddev start -y
-  assert_success
-
-  export PW_DIR=${TESTDIR}/tests/Playwright
+  ddev config --project-type=php --project-name=${PROJNAME} --docroot=web
+  ddev start -y >/dev/null
   cp "${DIR}"/tests/project_root/web/home.php web/home.php
   cp -r "${DIR}"/tests/project_root/tests ./
 }

@@ -110,7 +110,7 @@ All customization options (use with caution):
 
 #### `.env` file
 
-If there is a `.env.example` file in the `PLAYWRIGHT_TEST_DIR` folder, it will be copied (while running `ddev 
+If there is a `.env.example` file in the `PLAYWRIGHT_TEST_DIR` folder, it will be copied (while running `ddev
 playwright-install` or `ddev playwright-init` ) into a `.env` file (to be used with the `dotenv` package for example).
 
 ### Add-on commands
@@ -272,7 +272,7 @@ For example:
 If you wish to use a specific `.npmrc` file (for private NPM registries for example), you just need to place the `.npmrc` file in the `.ddev/homeadditions` folder of your project. This way, the `ddev playwright-install` command
 will automatically retrieve it.
 
-More generally, all the `.ddev/homeadditions` folder content is copied to `/home/pwuser` folder when the `playwright`
+More generally, all the `.ddev/homeadditions` folder content is copied to `/home/<your-user>` folder when the `playwright`
 container is build.
 
 ## Thanks

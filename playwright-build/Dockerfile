@@ -14,10 +14,20 @@ LABEL PARENT_IMAGE="${PLAYWRIGHT_DOCKER_IMAGE}"
 # the build.
 RUN mv /etc/apt/apt.conf.d/docker-clean /etc/apt/docker-clean-disabled
 
+# Remove any existing pwuser to avoid conflicts
+RUN deluser --remove-home pwuser || true
+# Accept build arguments for user creation
+ARG username
 ARG uid
 ARG gid
-RUN usermod -u "$uid" pwuser
-RUN groupmod -g "$gid" pwuser
+# Ensure tty group exists
+RUN getent group tty || groupadd tty
+# Create group and user, trying multiple methods for compatibility
+RUN (groupadd --gid "$gid" "$username" || groupadd "$username" || true) && \
+    (useradd -G tty -l -m -s "/bin/bash" --gid "$username" --comment '' --uid "$uid" "$username" || \
+    useradd -G tty -l -m -s "/bin/bash" --gid "$username" --comment '' "$username" || \
+    useradd -G tty -l -m -s "/bin/bash" --gid "$gid" --comment '' "$username" || \
+    useradd -G tty -l -m -s "/bin/bash" --comment '' "$username")
 
 # Define CAROOT for mkcert
 ENV CAROOT=/mnt/ddev-global-cache/mkcert
@@ -27,10 +37,10 @@ RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
     apt-get update \
     && apt-get install -y sudo
 
-# Allow the `pwuser` user passwordless sudo for `mkcert -install`
+# Allow the `$username` user passwordless sudo for `mkcert -install`
 RUN mkdir -p /etc/sudoers.d && \
-    echo "pwuser ALL=(ALL) NOPASSWD: ALL" > "/etc/sudoers.d/pwuser" && \
-    chmod 0440 "/etc/sudoers.d/pwuser"
+    echo "$username ALL=(ALL) NOPASSWD: ALL" > "/etc/sudoers.d/$username" && \
+    chmod 0440 "/etc/sudoers.d/$username"
 
 # Install mkcert for the correct architecture
 ARG TARGETARCH
@@ -55,13 +65,13 @@ RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
 RUN mv /etc/apt/docker-clean-disabled /etc/apt/apt.conf.d/docker-clean
 
 # Prepare KasmVNC
-RUN mkdir -p /home/pwuser/.vnc
-COPY kasmvnc.yaml xstartup /home/pwuser/.vnc/
-RUN touch /home/pwuser/.vnc/.de-was-selected
+RUN mkdir -p "/home/$username/.vnc"
+COPY kasmvnc.yaml xstartup /home/"$username"/.vnc/
+RUN touch "/home/$username/.vnc/.de-was-selected"
 # We actually disable auth, but KASM complains without it
-RUN sudo -u pwuser /bin/bash -c 'echo -e "secret\nsecret\n" | kasmvncpasswd -wo -u pwuser'
-RUN chown -R pwuser:pwuser /home/pwuser
-RUN usermod -a -G ssl-cert pwuser
+RUN sudo -u "$username" /bin/bash -c "echo -e \"secret\nsecret\n\" | kasmvncpasswd -wo -u \"$username\""
+RUN chown -R "$uid:$gid" "/home/$username"
+RUN usermod -a -G ssl-cert "$username"
 
 COPY entrypoint.sh /entrypoint.sh
 ENTRYPOINT ["/entrypoint.sh"]

@@ -15,4 +15,4 @@ if [ -d /mnt/ddev_config/.homeadditions ]; then
 fi
 
 # Start KasmVNC server
-sudo -u pwuser vncserver -fg -disableBasicAuth
+sudo -u "$(whoami)" vncserver -fg -disableBasicAuth

@@ -11,6 +11,7 @@ services:
       context: playwright-build
       args:
         PLAYWRIGHT_DOCKER_IMAGE: ${PLAYWRIGHT_DOCKER_IMAGE:-mcr.microsoft.com/playwright:focal}
+        username: ${DDEV_USER}
         uid: ${DDEV_UID}
         gid: ${DDEV_GID}
     container_name: ddev-${DDEV_SITENAME}-playwright

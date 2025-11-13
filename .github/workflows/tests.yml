@@ -1,10 +1,12 @@
 name: Tests
 on:
   pull_request:
+    paths-ignore:
+      - "**.md"
   push:
     branches: [ main ]
     paths-ignore:
-      - '**.md'
+      - "**.md"
 
   schedule:
   - cron: '25 06 * * *'
@@ -29,7 +31,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
 
-    - uses: ddev/ddev-add-on-test@v2
+    - uses: ddev/github-action-add-on-test@v2
       with:
         ddev_version: ${{ matrix.ddev_version }}
         token: ${{ secrets.GITHUB_TOKEN }}

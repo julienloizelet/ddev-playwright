@@ -1,7 +1,7 @@
-#!/bin/bash
+#!/usr/bin/env bash
 #ddev-generated
 # Remove the line above if you don't want this file to be overwritten when you run
-# ddev get julienloizelet/ddev-playwright
+# ddev add-on get julienloizelet/ddev-playwright
 #
 # This file comes from https://github.com/julienloizelet/ddev-playwright
 #
@@ -12,12 +12,11 @@ cd /var/www/html || exit 1
 cd "${PLAYWRIGHT_TEST_DIR}" || exit 1
 
 export PLAYWRIGHT_BROWSERS_PATH=0
-PRE="sudo -u pwuser PLAYWRIGHT_BROWSERS_PATH=0 "
 
 if [ -f "package-lock.json" ]; then
-  $PRE npx playwright "$@"
+  npx playwright "$@"
 elif [ -f "yarn.lock" ]; then
-  $PRE yarn playwright "$@" 
+  yarn playwright "$@"
 else
   echo "ERROR: could not find lock file for a supported package manager (npm, yarn) in '${PLAYWRIGHT_TEST_DIR}'"
   echo "Please run 'ddev playwright-install' or 'ddev playwright-init' to install playwright."

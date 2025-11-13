@@ -1,0 +1,5 @@
+# Exclude files from releases/tarballs
+docs/ export-ignore
+tests/ export-ignore
+.github/ export-ignore
+.gitattributes export-ignore

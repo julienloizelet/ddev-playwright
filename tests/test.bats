@@ -1,15 +1,43 @@
+#!/usr/bin/env bats
+
+# Bats is a testing framework for Bash
+# Documentation https://bats-core.readthedocs.io/en/stable/
+# Bats libraries documentation https://github.com/ztombol/bats-docs
+
+# For local tests, install bats-core, bats-assert, bats-file, bats-support
+# And run this in the add-on root directory:
+#   bats ./tests/test.bats
+# To exclude release tests:
+#   bats ./tests/test.bats --filter-tags '!release'
+# For debugging:
+#   bats ./tests/test.bats --show-output-of-passing-tests --verbose-run --print-output-on-failure
+
 setup() {
   set -eu -o pipefail
-  export DIR="$( cd "$( dirname "$BATS_TEST_FILENAME" )" >/dev/null 2>&1 && pwd )/.."
-  export TESTDIR=~/tmp/ddev-playwright-test
-  export PW_DIR=${TESTDIR}/tests/Playwright
-  mkdir -p $TESTDIR
-  export PROJNAME=ddev-playwright-test
-  export DDEV_NON_INTERACTIVE=true
-  ddev delete -Oy ${PROJNAME} >/dev/null 2>&1 || true
+
+  # Override this variable for your add-on:
+  export GITHUB_REPO=julienloizelet/ddev-playwright
+
+  TEST_BREW_PREFIX="$(brew --prefix 2>/dev/null || true)"
+  export BATS_LIB_PATH="${BATS_LIB_PATH}:${TEST_BREW_PREFIX}/lib:/usr/lib/bats"
+  bats_load_library bats-assert
+  bats_load_library bats-file
+  bats_load_library bats-support
+
+  export DIR="$(cd "$(dirname "${BATS_TEST_FILENAME}")/.." >/dev/null 2>&1 && pwd)"
+  export PROJNAME="test-$(basename "${GITHUB_REPO}")"
+  mkdir -p "${HOME}/tmp"
+  export TESTDIR="$(mktemp -d "${HOME}/tmp/${PROJNAME}.XXXXXX")"
+  export DDEV_NONINTERACTIVE=true
+  export DDEV_NO_INSTRUMENTATION=true
+  ddev delete -Oy "${PROJNAME}" >/dev/null 2>&1 || true
   cd "${TESTDIR}"
-  ddev config --project-type=php --project-name=${PROJNAME} --docroot=web --create-docroot
-  ddev start -y >/dev/null
+  run ddev config --project-name="${PROJNAME}" --project-tld=ddev.site --docroot=web
+  assert_success
+  run ddev start -y
+  assert_success
+
+  export PW_DIR=${TESTDIR}/tests/Playwright
   cp "${DIR}"/tests/project_root/web/home.php web/home.php
   cp -r "${DIR}"/tests/project_root/tests ./
 }
@@ -36,8 +64,8 @@ teardown() {
       exit 1
   fi
 
-  echo "# ddev get ${DIR} with project ${PROJNAME} in ${TESTDIR} ($(pwd))" >&3
-  ddev get ${DIR}
+  echo "# ddev add-on get ${DIR} with project ${PROJNAME} in ${TESTDIR} ($(pwd))" >&3
+  ddev add-on get ${DIR}
   ddev restart
 
   echo "# Install Playwright in container" >&3
@@ -68,8 +96,8 @@ teardown() {
 @test "install from release" {
   set -eu -o pipefail
   cd ${TESTDIR} || ( printf "unable to cd to ${TESTDIR}\n" && exit 1 )
-  echo "# ddev get julienloizelet/ddev-playwright with project ${PROJNAME} in ${TESTDIR} ($(pwd))" >&3
-  ddev get julienloizelet/ddev-playwright
+  echo "# ddev add-on get julienloizelet/ddev-playwright with project ${PROJNAME} in ${TESTDIR} ($(pwd))" >&3
+  ddev add-on get julienloizelet/ddev-playwright
   ddev restart >/dev/null
 
   echo "# Basic Curl check" >&3
@@ -124,8 +152,8 @@ teardown() {
         exit 1
     fi
 
-  echo "# ddev get ${DIR} with project ${PROJNAME} in ${TESTDIR} ($(pwd))" >&3
-  ddev get ${DIR}
+  echo "# ddev add-on get ${DIR} with project ${PROJNAME} in ${TESTDIR} ($(pwd))" >&3
+  ddev add-on get ${DIR}
   ddev restart
 
   echo "# Install Playwright in container with yarn" >&3
@@ -159,8 +187,8 @@ teardown() {
         exit 1
     fi
 
-  echo "# ddev get ${DIR} with project ${PROJNAME} in ${TESTDIR} ($(pwd))" >&3
-  ddev get ${DIR}
+  echo "# ddev add-on get ${DIR} with project ${PROJNAME} in ${TESTDIR} ($(pwd))" >&3
+  ddev add-on get ${DIR}
   ddev restart
 
   echo "# Install Playwright in container with npm" >&3

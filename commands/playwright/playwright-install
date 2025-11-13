@@ -1,7 +1,7 @@
-#!/bin/bash
+#!/usr/bin/env bash
 #ddev-generated
 # Remove the line above if you don't want this file to be overwritten when you run
-# ddev get julienloizelet/ddev-playwright
+# ddev add-on get julienloizelet/ddev-playwright
 #
 # This file comes from https://github.com/julienloizelet/ddev-playwright
 #
@@ -37,15 +37,14 @@ cd /var/www/html || exit 1
 cd "${PLAYWRIGHT_TEST_DIR}" || exit 1
 
 export PLAYWRIGHT_BROWSERS_PATH=0
-PRE="sudo -u pwuser PLAYWRIGHT_BROWSERS_PATH=0 "
 
 if [[ $PACKAGE_MANAGER == "npm" ]]; then
-    $PRE npm install
-    $PRE npx playwright install --with-deps
+    npm install
+    npx playwright install --with-deps
 elif [[ $PACKAGE_MANAGER == "yarn" ]]; then
-    $PRE yarn install
-    $PRE yarn playwright install --with-deps
+    yarn install
+    yarn playwright install --with-deps
 fi
 
 # Conditionally copy an .env file if an example file exists
-[ -f .env.example ] && [ ! -f .env ] && $PRE cp -n .env.example .env; exit 0
+[ -f .env.example ] && [ ! -f .env ] && cp -n .env.example .env; exit 0

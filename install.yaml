@@ -11,7 +11,7 @@ project_files:
 - playwright-build/entrypoint.sh
 - docker-compose.playwright.yaml
 
-ddev_version_constraint: '>= v1.24.9'
+ddev_version_constraint: '>= v1.24.10'
 
 pre_install_actions:
   - |

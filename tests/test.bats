@@ -1,3 +1,17 @@
+#!/usr/bin/env bats
+
+# Bats is a testing framework for Bash
+# Documentation https://bats-core.readthedocs.io/en/stable/
+# Bats libraries documentation https://github.com/ztombol/bats-docs
+
+# For local tests, install bats-core, bats-assert, bats-file, bats-support
+# And run this in the add-on root directory:
+#   bats ./tests/test.bats
+# To exclude release tests:
+#   bats ./tests/test.bats --filter-tags '!release'
+# For debugging:
+#   bats ./tests/test.bats --show-output-of-passing-tests --verbose-run --print-output-on-failure
+
 setup() {
   set -eu -o pipefail
   export DIR="$( cd "$( dirname "$BATS_TEST_FILENAME" )" >/dev/null 2>&1 && pwd )/.."
@@ -5,10 +19,11 @@ setup() {
   export PW_DIR=${TESTDIR}/tests/Playwright
   mkdir -p $TESTDIR
   export PROJNAME=ddev-playwright-test
-  export DDEV_NON_INTERACTIVE=true
+  export DDEV_NONINTERACTIVE=true
+  export DDEV_NO_INSTRUMENTATION=true
   ddev delete -Oy ${PROJNAME} >/dev/null 2>&1 || true
   cd "${TESTDIR}"
-  ddev config --project-type=php --project-name=${PROJNAME} --docroot=web --create-docroot
+  ddev config --project-type=php --project-name=${PROJNAME} --docroot=web
   ddev start -y >/dev/null
   cp "${DIR}"/tests/project_root/web/home.php web/home.php
   cp -r "${DIR}"/tests/project_root/tests ./
@@ -36,8 +51,8 @@ teardown() {
       exit 1
   fi
 
-  echo "# ddev get ${DIR} with project ${PROJNAME} in ${TESTDIR} ($(pwd))" >&3
-  ddev get ${DIR}
+  echo "# ddev add-on get ${DIR} with project ${PROJNAME} in ${TESTDIR} ($(pwd))" >&3
+  ddev add-on get ${DIR}
   ddev restart
 
   echo "# Install Playwright in container" >&3
@@ -68,8 +83,8 @@ teardown() {
 @test "install from release" {
   set -eu -o pipefail
   cd ${TESTDIR} || ( printf "unable to cd to ${TESTDIR}\n" && exit 1 )
-  echo "# ddev get julienloizelet/ddev-playwright with project ${PROJNAME} in ${TESTDIR} ($(pwd))" >&3
-  ddev get julienloizelet/ddev-playwright
+  echo "# ddev add-on get julienloizelet/ddev-playwright with project ${PROJNAME} in ${TESTDIR} ($(pwd))" >&3
+  ddev add-on get julienloizelet/ddev-playwright
   ddev restart >/dev/null
 
   echo "# Basic Curl check" >&3
@@ -124,8 +139,8 @@ teardown() {
         exit 1
     fi
 
-  echo "# ddev get ${DIR} with project ${PROJNAME} in ${TESTDIR} ($(pwd))" >&3
-  ddev get ${DIR}
+  echo "# ddev add-on get ${DIR} with project ${PROJNAME} in ${TESTDIR} ($(pwd))" >&3
+  ddev add-on get ${DIR}
   ddev restart
 
   echo "# Install Playwright in container with yarn" >&3
@@ -159,8 +174,8 @@ teardown() {
         exit 1
     fi
 
-  echo "# ddev get ${DIR} with project ${PROJNAME} in ${TESTDIR} ($(pwd))" >&3
-  ddev get ${DIR}
+  echo "# ddev add-on get ${DIR} with project ${PROJNAME} in ${TESTDIR} ($(pwd))" >&3
+  ddev add-on get ${DIR}
   ddev restart
 
   echo "# Install Playwright in container with npm" >&3

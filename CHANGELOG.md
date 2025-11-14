@@ -12,6 +12,21 @@ The public API for this project is defined by the files `docker-compose.playwrig
 
 ---
 
+## [2.5.0](https://github.com/julienloizelet/ddev-playwright/releases/tag/v2.5.0) - 2025-11-14
+
+[_Compare with previous release_](https://github.com/julienloizelet/ddev-playwright/compare/v2.4.0...v2.5.0)
+
+### Changed
+
+- Run container as `$DDEV_USER` instead of `pwuser`
+- Set `1.24.10` as the minimum required DDEV version
+
+### Fixed
+
+- Fix `npm` permission [issue](https://github.com/julienloizelet/ddev-playwright/issues/27)
+
+---
+
 ## [2.4.0](https://github.com/julienloizelet/ddev-playwright/releases/tag/v2.4.0) - 2025-11-05
 
 [_Compare with previous release_](https://github.com/julienloizelet/ddev-playwright/compare/v2.3.0...v2.4.0)
@@ -76,7 +91,7 @@ The public API for this project is defined by the files `docker-compose.playwrig
 ### Changed
 
 - Copy the existing `.ddev/.homeadditions` folder files into `/home/pwuser` during container build so that they are
-  readable by the `pwuser` that installs playwright ([@see #10](https://github.com/julienloizelet/ddev-playwright/pull/10))
+  readable by the `pwuser` that installs playwright ([#10](https://github.com/julienloizelet/ddev-playwright/pull/10))
 
 ---
 
@@ -96,12 +111,12 @@ The public API for this project is defined by the files `docker-compose.playwrig
 
 ### Changed
 
-- Change `working_dir` to `/var/www/html` in `docker-compose.playwright.yaml` ([@see #5](https://github.com/julienloizelet/ddev-playwright/pull/5))
+- Change `working_dir` to `/var/www/html` in `docker-compose.playwright.yaml` ([#5](https://github.com/julienloizelet/ddev-playwright/pull/5))
 
 ### Added
 
-- Add `kasmVNC` service for Playwright headed test ([@see #5](https://github.com/julienloizelet/ddev-playwright/pull/5))
-- Add custom commands `ddev playwright` and `ddev playwright-install` ([@see #5](https://github.com/julienloizelet/ddev-playwright/pull/5))
+- Add `kasmVNC` service for Playwright headed test ([#5](https://github.com/julienloizelet/ddev-playwright/pull/5))
+- Add custom commands `ddev playwright` and `ddev playwright-install` ([#5](https://github.com/julienloizelet/ddev-playwright/pull/5))
 
 ---
 

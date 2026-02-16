@@ -5,17 +5,20 @@
 # This file comes from https://github.com/julienloizelet/ddev-playwright
 #
 ARG PLAYWRIGHT_DOCKER_IMAGE=mcr.microsoft.com/playwright:focal
+ARG KASMVNC_VERSION=1.4.0
 FROM ${PLAYWRIGHT_DOCKER_IMAGE}
 
 ARG PLAYWRIGHT_DOCKER_IMAGE
+ARG KASMVNC_VERSION
 LABEL PARENT_IMAGE="${PLAYWRIGHT_DOCKER_IMAGE}"
 
 # Debian images by default disable apt caching, so turn it on until we finish
 # the build.
 RUN mv /etc/apt/apt.conf.d/docker-clean /etc/apt/docker-clean-disabled
 
-# Remove any existing pwuser to avoid conflicts
+# Remove any existing pwuser/ubuntu users to avoid UID conflicts
 RUN deluser --remove-home pwuser || true
+RUN deluser --remove-home ubuntu || true
 # Accept build arguments for user creation
 ARG username
 ARG uid
@@ -54,12 +57,22 @@ RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
     apt-get update \
     && apt-get install -y icewm xauth
 
+# Enable universe repository for Ubuntu (needed for KasmVNC dependencies for some versions).
+RUN apt-get update && apt-get install -y software-properties-common && \
+    add-apt-repository -y universe && apt-get update
+
+
 # Install KasmVNC for remote access.
-RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
-      --mount=type=cache,target=/var/lib/apt,sharing=locked \
-    wget https://github.com/kasmtech/KasmVNC/releases/download/v1.1.0/kasmvncserver_bullseye_1.1.0_${TARGETARCH}.deb && \
-    apt-get install -y ./kasmvncserver*.deb && \
-    rm -f kasmvncserver*.deb
+RUN if echo "$PLAYWRIGHT_DOCKER_IMAGE" | grep -q "jammy"; then \
+        KASMVNC_DIST="jammy"; \
+      elif echo "$PLAYWRIGHT_DOCKER_IMAGE" | grep -q "noble"; then \
+        KASMVNC_DIST="noble"; \
+      else \
+        KASMVNC_DIST="bullseye"; \
+      fi && \
+      wget https://github.com/kasmtech/KasmVNC/releases/download/v${KASMVNC_VERSION}/kasmvncserver_${KASMVNC_DIST}_${KASMVNC_VERSION}_${TARGETARCH}.deb && \
+      apt-get install -y ./kasmvncserver*.deb && \
+      rm -f kasmvncserver*.deb
 
 # We're done with apt so disable caching again for the final image.
 RUN mv /etc/apt/docker-clean-disabled /etc/apt/apt.conf.d/docker-clean

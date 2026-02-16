@@ -12,6 +12,23 @@ The public API for this project is defined by the files `docker-compose.playwrig
 
 ---
 
+
+## [2.6.0](https://github.com/julienloizelet/ddev-playwright/releases/tag/v2.6.0) - 2026-02-16
+
+[_Compare with previous release_](https://github.com/julienloizelet/ddev-playwright/compare/v2.5.0...v2.6.0)
+
+### Added
+
+- Add support for newer Playwright versions ([jammy/noble](https://github.com/julienloizelet/ddev-playwright/issues/33))
+- Add `KASMVNC_VERSION` variable to customize KasmVNC
+
+### Changed
+
+- Default version of KasmVNC is `1.4.0` instead of `1.1.0` 
+
+
+---
+
 ## [2.5.0](https://github.com/julienloizelet/ddev-playwright/releases/tag/v2.5.0) - 2025-11-14
 
 [_Compare with previous release_](https://github.com/julienloizelet/ddev-playwright/compare/v2.4.0...v2.5.0)

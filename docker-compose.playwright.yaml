@@ -24,7 +24,7 @@ services:
       com.ddev.approot: ${DDEV_APPROOT}
     environment:
       # Modify the PLAYWRIGHT_TEST_DIR folder path to suit your needs
-      - PLAYWRIGHT_TEST_DIR=.
+      - PLAYWRIGHT_TEST_DIR=Tests/Playwright
       - NETWORK_IFACE=eth0
       - DISPLAY=:1
       - VIRTUAL_HOST=$DDEV_HOSTNAME

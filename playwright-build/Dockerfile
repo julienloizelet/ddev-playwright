@@ -63,7 +63,7 @@ RUN apt-get update && apt-get install -y software-properties-common && \
 
 
 # Install KasmVNC for remote access.
-RUN if wget https://github.com/kasmtech/KasmVNC/releases/download/v${KASMVNC_VERSION}/kasmvncserver_${KASMVNC_DIST}_${KASMVNC_VERSION}_${TARGETARCH}.deb && \
+RUN wget https://github.com/kasmtech/KasmVNC/releases/download/v${KASMVNC_VERSION}/kasmvncserver_${KASMVNC_DIST}_${KASMVNC_VERSION}_${TARGETARCH}.deb && \
       apt-get install -y ./kasmvncserver*.deb && \
       rm -f kasmvncserver*.deb
 

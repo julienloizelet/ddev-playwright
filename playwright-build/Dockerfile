@@ -4,7 +4,7 @@
 #
 # This file comes from https://github.com/julienloizelet/ddev-playwright
 #
-ARG PLAYWRIGHT_DOCKER_IMAGE=mcr.microsoft.com/playwright:focal
+ARG PLAYWRIGHT_DOCKER_IMAGE=ghcr.io/xima-media/playwright:1.59.1
 ARG KASMVNC_VERSION=1.4.0
 FROM ${PLAYWRIGHT_DOCKER_IMAGE}
 
@@ -63,14 +63,7 @@ RUN apt-get update && apt-get install -y software-properties-common && \
 
 
 # Install KasmVNC for remote access.
-RUN if echo "$PLAYWRIGHT_DOCKER_IMAGE" | grep -q "jammy"; then \
-        KASMVNC_DIST="jammy"; \
-      elif echo "$PLAYWRIGHT_DOCKER_IMAGE" | grep -q "noble"; then \
-        KASMVNC_DIST="noble"; \
-      else \
-        KASMVNC_DIST="bullseye"; \
-      fi && \
-      wget https://github.com/kasmtech/KasmVNC/releases/download/v${KASMVNC_VERSION}/kasmvncserver_${KASMVNC_DIST}_${KASMVNC_VERSION}_${TARGETARCH}.deb && \
+RUN if wget https://github.com/kasmtech/KasmVNC/releases/download/v${KASMVNC_VERSION}/kasmvncserver_${KASMVNC_DIST}_${KASMVNC_VERSION}_${TARGETARCH}.deb && \
       apt-get install -y ./kasmvncserver*.deb && \
       rm -f kasmvncserver*.deb
 

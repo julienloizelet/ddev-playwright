@@ -6,11 +6,11 @@
 #
 services:
   playwright:
-    image: ${PLAYWRIGHT_DOCKER_IMAGE:-mcr.microsoft.com/playwright:focal}-${DDEV_SITENAME}-built
+    image: ${PLAYWRIGHT_DOCKER_IMAGE:-ghcr.io/xima-media/playwright:1.59.1}-${DDEV_SITENAME}-built
     build:
       context: playwright-build
       args:
-        PLAYWRIGHT_DOCKER_IMAGE: ${PLAYWRIGHT_DOCKER_IMAGE:-mcr.microsoft.com/playwright:focal}
+        PLAYWRIGHT_DOCKER_IMAGE: ${PLAYWRIGHT_DOCKER_IMAGE:-ghcr.io/xima-media/playwright:1.59.1}
         KASMVNC_VERSION: ${KASMVNC_VERSION:-1.4.0}
         username: ${DDEV_USER}
         uid: ${DDEV_UID}
@@ -24,7 +24,7 @@ services:
       com.ddev.approot: ${DDEV_APPROOT}
     environment:
       # Modify the PLAYWRIGHT_TEST_DIR folder path to suit your needs
-      - PLAYWRIGHT_TEST_DIR=tests/Playwright
+      - PLAYWRIGHT_TEST_DIR=.
       - NETWORK_IFACE=eth0
       - DISPLAY=:1
       - VIRTUAL_HOST=$DDEV_HOSTNAME

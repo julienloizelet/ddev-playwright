@@ -1,7 +1,7 @@
 [![add-on registry](https://img.shields.io/badge/DDEV-Add--on_Registry-blue)](https://addons.ddev.com)
-[![tests](https://github.com/julienloizelet/ddev-playwright/actions/workflows/tests.yml/badge.svg)](https://github.com/julienloizelet/ddev-playwright/actions/workflows/tests.yml)
-[![last commit](https://img.shields.io/github/last-commit/julienloizelet/ddev-playwright)](https://github.com/julienloizelet/ddev-playwright/commits)
-[![Version](https://img.shields.io/github/v/release/julienloizelet/ddev-playwright)](https://github.com/julienloizelet/ddev-playwright/releases)
+[![tests](https://github.com/xima-media/ddev-playwright/actions/workflows/tests.yml/badge.svg)](https://github.com/xima-media/ddev-playwright/actions/workflows/tests.yml)
+[![last commit](https://img.shields.io/github/last-commit/xima-media/ddev-playwright)](https://github.com/xima-media/ddev-playwright/commits)
+[![Version](https://img.shields.io/github/v/release/xima-media/ddev-playwright)](https://github.com/xima-media/ddev-playwright/releases)
 
 # ddev-playwright
 
@@ -42,7 +42,7 @@ This DDEV add-on allows you to use Playwright in a separate `playwright` service
 Run:
 
 ```bash
-ddev add-on get julienloizelet/ddev-playwright
+ddev add-on get xima-media/ddev-playwright
 ```
 
 Then restart your project
@@ -56,7 +56,6 @@ ddev restart
 ### Quick start
 
 - Create a `tests/Playwright` folder in your project root directory (Only required for this "quick start").
-- `ddev playwright-init --pm npm`
 - `ddev playwright test`
 
 ### Customization
@@ -85,7 +84,7 @@ services:
       - PLAYWRIGHT_TEST_DIR=./
 ```
 
-You could also edit the value directly in the `docker-compose.playwright.yaml` file, but you risk losing your changes every time you do a `ddev add-on get julienloizelet/ddev-playwright` (unless you delete the `#ddev-generated` line at the beginning of the file).
+You could also edit the value directly in the `docker-compose.playwright.yaml` file, but you risk losing your changes every time you do a `ddev add-on get xima-media/ddev-playwright` (unless you delete the `#ddev-generated` line at the beginning of the file).
 
 
 #### Docker image and KASMVNC version
@@ -97,7 +96,7 @@ For example, to use the `mcr.microsoft.com/playwright:v1.46.0-focal-amd64` image
 
 ```bash
 ddev dotenv set .ddev/.env.playwright --playwright-docker-image=mcr.microsoft.com/playwright:v1.46.0-focal-amd64
-ddev add-on get julienloizelet/ddev-playwright
+ddev add-on get xima-media/ddev-playwright
 ddev restart
 ```
 

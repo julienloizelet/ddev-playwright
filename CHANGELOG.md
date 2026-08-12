@@ -13,6 +13,22 @@ The public API for this project is defined by the files `docker-compose.playwrig
 ---
 
 
+## [3.0.0](https://github.com/julienloizelet/ddev-playwright/releases/tag/v3.0.0) - 2026-08-12
+
+[_Compare with previous release_](https://github.com/julienloizelet/ddev-playwright/compare/v2.6.0...v3.0.0)
+
+### Changed
+
+- **Breaking change**: Default Playwright Docker image is now `mcr.microsoft.com/playwright:v1.62.1-noble` instead of `mcr.microsoft.com/playwright:focal` ([issue #36](https://github.com/julienloizelet/ddev-playwright/issues/36))
+
+Recent Playwright versions are incompatible with the frozen WebKit browser available for Ubuntu 20.04 (`focal`),
+and the default image is now pinned to a specific Playwright version to avoid drift between the Node.js package and the installed browsers.
+
+If needed, you can still use another image by setting the `PLAYWRIGHT_DOCKER_IMAGE` variable in the `.ddev/.env.playwright` file.
+
+---
+
+
 ## [2.6.0](https://github.com/julienloizelet/ddev-playwright/releases/tag/v2.6.0) - 2026-02-16
 
 [_Compare with previous release_](https://github.com/julienloizelet/ddev-playwright/compare/v2.5.0...v2.6.0)

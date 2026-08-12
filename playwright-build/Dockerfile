@@ -4,7 +4,7 @@
 #
 # This file comes from https://github.com/julienloizelet/ddev-playwright
 #
-ARG PLAYWRIGHT_DOCKER_IMAGE=mcr.microsoft.com/playwright:focal
+ARG PLAYWRIGHT_DOCKER_IMAGE=mcr.microsoft.com/playwright:v1.62.1-noble
 ARG KASMVNC_VERSION=1.4.0
 FROM ${PLAYWRIGHT_DOCKER_IMAGE}
 

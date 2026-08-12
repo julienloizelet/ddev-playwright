@@ -6,11 +6,11 @@
 #
 services:
   playwright:
-    image: ${PLAYWRIGHT_DOCKER_IMAGE:-mcr.microsoft.com/playwright:focal}-${DDEV_SITENAME}-built
+    image: ${PLAYWRIGHT_DOCKER_IMAGE:-mcr.microsoft.com/playwright:v1.62.1-noble}-${DDEV_SITENAME}-built
     build:
       context: playwright-build
       args:
-        PLAYWRIGHT_DOCKER_IMAGE: ${PLAYWRIGHT_DOCKER_IMAGE:-mcr.microsoft.com/playwright:focal}
+        PLAYWRIGHT_DOCKER_IMAGE: ${PLAYWRIGHT_DOCKER_IMAGE:-mcr.microsoft.com/playwright:v1.62.1-noble}
         KASMVNC_VERSION: ${KASMVNC_VERSION:-1.4.0}
         username: ${DDEV_USER}
         uid: ${DDEV_UID}

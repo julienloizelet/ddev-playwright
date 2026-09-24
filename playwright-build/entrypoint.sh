@@ -22,5 +22,26 @@ fi
 # exit. Nothing else is running at this point, so removing them is safe.
 rm -f /tmp/.X*-lock /tmp/.X11-unix/X*
 
-# Start KasmVNC server
-sudo -u "$(whoami)" vncserver -fg -disableBasicAuth
+# Stop Xvnc cleanly when the container is stopped, so that its lock, socket and
+# pid files are removed.
+stop_vnc() {
+    sudo -u "$(whoami)" vncserver -kill :1
+    exit 0
+}
+trap stop_vnc TERM INT
+
+# Start KasmVNC server on display :1.
+# Xvnc and the applications of xstartup are started in the background, then
+# vncserver returns. Requesting :1 explicitly makes vncserver fail if that
+# display is not available, instead of silently using another one.
+sudo -u "$(whoami)" vncserver :1 -disableBasicAuth || exit 1
+
+# Keep the container alive as long as Xvnc runs.
+# The lifetime of the container is bound to Xvnc, not to the window manager
+# started by xstartup: if the window manager fails, headless tests keep working.
+XVNC_PID=$(cat "$HOME/.vnc/$(uname -n):1.pid")
+while kill -0 "$XVNC_PID" 2>/dev/null; do
+    sleep 1
+done
+echo "Xvnc (PID $XVNC_PID) exited, stopping the container" >&2
+exit 1

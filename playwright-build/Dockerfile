@@ -86,5 +86,11 @@ RUN sudo -u "$username" /bin/bash -c "echo -e \"secret\nsecret\n\" | kasmvncpass
 RUN chown -R "$uid:$gid" "/home/$username"
 RUN usermod -a -G ssl-cert "$username"
 
+# Create the X11 socket directory with the standard permissions.
+# The container runs as an unprivileged user. Xvnc would still create this
+# directory itself, but it prints a misleading
+# "_XSERVTransmkdir: ERROR: euid != 0" message in its log every time it does.
+RUN mkdir -p /tmp/.X11-unix && chmod 1777 /tmp/.X11-unix
+
 COPY entrypoint.sh /entrypoint.sh
 ENTRYPOINT ["/entrypoint.sh"]

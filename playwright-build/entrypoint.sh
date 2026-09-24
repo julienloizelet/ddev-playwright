@@ -34,6 +34,10 @@ trap stop_vnc TERM INT
 # Xvnc and the applications of xstartup are started in the background, then
 # vncserver returns. Requesting :1 explicitly makes vncserver fail if that
 # display is not available, instead of silently using another one.
+# sudo does not change the user here, but it re-initializes the supplementary
+# groups (ssl-cert, tty) that Docker drops when the container is started with
+# "user: uid:gid". vncserver refuses to start when it cannot read the KasmVNC
+# certificate key, which belongs to the ssl-cert group.
 sudo -u "$(whoami)" vncserver :1 -disableBasicAuth || exit 1
 
 # Keep the container alive as long as Xvnc runs.

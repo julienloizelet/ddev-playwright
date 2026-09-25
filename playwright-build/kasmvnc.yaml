@@ -12,3 +12,13 @@ logging:
 network:
     ssl:
         require_ssl: false
+    udp:
+        # Skip the public IP lookup that Xvnc performs when it starts.
+        # Without a fixed value, KasmVNC sends a STUN request to each of seven
+        # hardcoded internet servers and waits up to 10 seconds for each answer.
+        # On hosts where outgoing UDP is filtered, Xvnc blocks for about
+        # 70 seconds, X clients cannot connect in the meantime, and Xvnc then
+        # exits, which stops the container.
+        # See https://github.com/julienloizelet/ddev-playwright/issues/38
+        # The UDP transport is not reachable through the DDEV router anyway.
+        public_ip: 127.0.0.1

@@ -8,7 +8,24 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/) and th
 
 The purpose of this section is to declare the public API of this project as required by [item 1 of semantic versioning specification](https://semver.org/spec/v2.0.0.html#spec-item-1).
 
-The public API for this project is defined by the files `docker-compose.playwright.yaml` and `install.yaml`.
+The public API for this project is defined by the `install.yaml` file and all the files it lists as `project_files`.
+
+---
+
+
+## [3.1.0](https://github.com/julienloizelet/ddev-playwright/releases/tag/v3.1.0) - 2026-10-05
+
+[_Compare with previous release_](https://github.com/julienloizelet/ddev-playwright/compare/v3.0.0...v3.1.0)
+
+### Fixed
+
+- Fix `playwright` container exiting about 70 seconds after start when the KasmVNC public IP lookup fails, for example on hosts where outgoing UDP is filtered ([issue #38](https://github.com/julienloizelet/ddev-playwright/issues/38))
+- Fix `playwright` container not restarting after an unclean stop because of stale X11 lock files ([issue #32](https://github.com/julienloizelet/ddev-playwright/issues/32))
+- Fix `playwright` container waiting for the Docker stop timeout: Xvnc is now stopped cleanly on `SIGTERM`
+
+### Changed
+
+- The `playwright` container now runs as long as Xvnc runs: it no longer stops when the window manager exits, and it exits with a non-zero code when Xvnc stops by itself
 
 ---
 
